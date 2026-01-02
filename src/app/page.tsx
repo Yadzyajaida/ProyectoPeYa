@@ -1,6 +1,6 @@
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { FileSpreadsheet, FileCog, Link as LinkIcon, FileWarning, Fingerprint } from 'lucide-react';
+import { FileCode, Type, FileText, FileSpreadsheet, FileCog, Link as LinkIcon, FileWarning, Fingerprint } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -61,7 +61,7 @@ export default function Home() {
             <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
-                  <Fingerprint className="w-10 h-10 text-primary" />
+                  <FileCode className="w-10 h-10 text-primary" />
                 </div>
                 <CardTitle className="text-xl">Generador de Remote ID</CardTitle>
                 <CardDescription className="mt-2">
@@ -70,58 +70,19 @@ export default function Home() {
               </CardHeader>
             </Card>
           </Link>
-          <a href="https://docs.google.com/document/d/1OqGgsJzInXzzqnQOXTCcP0ACF0BhEXi2YjTvPpbLOC0/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
+          <Link href="/enlaces-google">
             <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
-                  <FileWarning className="w-10 h-10 text-primary" />
+                  <FileText className="w-10 h-10 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Guía de Escalaciones</CardTitle>
+                <CardTitle className="text-xl">Documentos</CardTitle>
                 <CardDescription className="mt-2">
-                  Consulta las rutas para escalaciones urgentes.
+                  Una colección de documentos o sheets creados por el equipo para facilitar la gestión de integraciones.
                 </CardDescription>
               </CardHeader>
             </Card>
-          </a>
-          <a href="https://docs.google.com/spreadsheets/d/1xjyXZE-Euk_fUZcoLGDbzIjVdA9XUAmD/edit?gid=1033260094#gid=1033260094" target="_blank" rel="noopener noreferrer">
-            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
-              <CardHeader className="flex flex-col items-center justify-center text-center p-6">
-                <div className="p-4 bg-primary/10 rounded-full mb-4">
-                  <FileWarning className="w-10 h-10 text-primary" />
-                </div>
-                <CardTitle className="text-xl">Templates Nice</CardTitle>
-                <CardDescription className="mt-2">
-                  Templates amigables para las diversas gestiones.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </a>
-          <a href="https://docs.google.com/spreadsheets/d/1_w8qumDWMf3cx1o5PGXyWlSMs1_KwxUwVBRAEQ3yeQE/edit?gid=240001792#gid=240001792" target="_blank" rel="noopener noreferrer">
-            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
-              <CardHeader className="flex flex-col items-center justify-center text-center p-6">
-                <div className="p-4 bg-primary/10 rounded-full mb-4">
-                  <FileWarning className="w-10 h-10 text-primary" />
-                </div>
-                <CardTitle className="text-xl">Lista de Locales Integradas</CardTitle>
-                <CardDescription className="mt-2">
-                  Lista de Tiendas Integradas en menús compartidos para identificar o añadir.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </a>
-          <a href="https://docs.google.com/spreadsheets/d/18smPZvC53Rw85qbiq8CdIrT-l8vg60XIUSXA9byRiqk/edit?gid=443275292#gid=443275292" target="_blank" rel="noopener noreferrer">
-            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
-              <CardHeader className="flex flex-col items-center justify-center text-center p-6">
-                <div className="p-4 bg-primary/10 rounded-full mb-4">
-                  <FileWarning className="w-10 h-10 text-primary" />
-                </div>
-                <CardTitle className="text-xl">Locales eliminados asignados</CardTitle>
-                <CardDescription className="mt-2">
-                  Lista de Locales eliminados para utlilziar asignados para identificar o añadir.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </a>
+          </Link>
         </div>
       </main>
     </DashboardLayout>
