@@ -160,17 +160,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton tooltip="Settings">
-                <Settings />
-                <span>Settings</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-             <SidebarMenuItem className="mt-2 flex items-center justify-end">
-                <SidebarToggle />
-            </SidebarMenuItem>
-          </SidebarMenu>
+          
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
