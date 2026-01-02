@@ -127,7 +127,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  tooltip="Escalaciones"
+                  tooltip="Templates"
                 >
                   <a href="https://docs.google.com/spreadsheets/d/1xjyXZE-Euk_fUZcoLGDbzIjVdA9XUAmD/edit?gid=1033260094#gid=1033260094" target="_blank" rel="noopener noreferrer">
                     <FileWarning />
@@ -138,18 +138,18 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  tooltip="Escalaciones"
+                  tooltip="Listas Integradas"
                 >
                   <a href="https://docs.google.com/spreadsheets/d/1_w8qumDWMf3cx1o5PGXyWlSMs1_KwxUwVBRAEQ3yeQE/edit?gid=240001792#gid=240001792" target="_blank" rel="noopener noreferrer">
                     <FileWarning />
-                    <span>Lista Integradas</span>
+                    <span>Listas Integradas</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  tooltip="Escalaciones"
+                  tooltip="Locales Eliminados"
                 >
                   <a href="https://docs.google.com/spreadsheets/d/18smPZvC53Rw85qbiq8CdIrT-l8vg60XIUSXA9byRiqk/edit?gid=443275292#gid=443275292" target="_blank" rel="noopener noreferrer">
                     <FileWarning />
