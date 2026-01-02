@@ -160,7 +160,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
-          
+          <SidebarMenuItem className="mt-2 flex items-center justify-end">
+                <SidebarToggle />
+          </SidebarMenuItem>
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
