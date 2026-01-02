@@ -262,7 +262,7 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
                   <Alert>
                     <FilePenLine className="h-4 w-4" />
                     <AlertTitle>Modificaciones en Productos ({productosLog.length})</AlertTitle>
-                    <ScrollArea className="h-100 mt-2">
+                    <ScrollArea className="h-60 mt-2">
                       <AlertDescription>
                         <ul className="space-y-1 text-xs">
                           {productosLog.map((msg, index) => (
@@ -277,7 +277,7 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
                   <Alert>
                     <FilePenLine className="h-4 w-4" />
                     <AlertTitle>Modificaciones en Opcionales ({opcionalesLog.length})</AlertTitle>
-                    <ScrollArea className="h-100 mt-2">
+                    <ScrollArea className="h-60 mt-2">
                       <AlertDescription>
                         <ul className="space-y-1 text-xs">
                           {opcionalesLog.map((msg, index) => (
