@@ -68,36 +68,36 @@ export function LinkGenerator() {
   }, []);
 
   useEffect(() => {
-    if (cooldown <= 0) return;
+    if (cooldown > 0) {
+      const timer = setInterval(() => {
+        const remaining = getRemainingCooldown();
+        setCooldown(remaining);
+        if (remaining <= 0) {
+          localStorage.removeItem(COOLDOWN_KEY);
+          localStorage.removeItem(OPENED_COUNT_KEY);
+          localStorage.removeItem(OPENED_LINKS_KEY);
+          localStorage.removeItem(LAST_ID_KEY);
+          handleClear();
+          clearInterval(timer);
+        }
+      }, 1000);
 
-    const timer = setInterval(() => {
-      const remaining = getRemainingCooldown();
-      setCooldown(remaining);
-      if (remaining <= 0) {
-        localStorage.removeItem(COOLDOWN_KEY);
-        clearInterval(timer);
-      }
-    }, 1000);
-
-    return () => clearInterval(timer);
+      return () => clearInterval(timer);
+    }
   }, [cooldown]);
 
   useEffect(() => {
-    if (cooldown <= 0) return;
-  
-    const timer = setInterval(() => {
-      const remaining = getRemainingCooldown();
-      setCooldown(remaining);
-      if (remaining <= 0) {
-        localStorage.removeItem(COOLDOWN_KEY);
-        localStorage.removeItem(OPENED_COUNT_KEY);
-        localStorage.removeItem(OPENED_LINKS_KEY);
-        clearInterval(timer);
-      }
-    }, 1000);
-  
-    return () => clearInterval(timer);
-  }, [cooldown]);
+    if (openedCount >= RATE_LIMIT && cooldown <= 0) {
+      const endTime = Date.now() + COOLDOWN_MS;
+      localStorage.setItem(COOLDOWN_KEY, String(endTime));
+      setCooldown(getRemainingCooldown());
+      toast({
+        title: "Límite alcanzado",
+        description: `Has abierto ${RATE_LIMIT} enlaces. La herramienta entrará en enfriamiento.`,
+        variant: "destructive",
+      });
+    }
+  }, [openedCount, cooldown, toast]);
 
   const handleGenerate = () => {
     if (cooldown > 0) {
@@ -140,10 +140,12 @@ export function LinkGenerator() {
     setOpenedCount(0);
     setOpenedLinks(new Set());
     localStorage.setItem(LAST_ID_KEY, lastProcessedId);
+    localStorage.setItem(OPENED_COUNT_KEY, '0');
+    localStorage.setItem(OPENED_LINKS_KEY, '[]');
   };
 
   const openLink = (link: string, index: number) => {
-    if (openedLinks.has(index)) return;
+    if (openedLinks.has(index) || cooldown > 0) return;
   
     window.open(link, "_blank");
   
