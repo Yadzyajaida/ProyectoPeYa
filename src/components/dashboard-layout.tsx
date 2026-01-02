@@ -153,7 +153,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 >
                   <a href="https://docs.google.com/spreadsheets/d/18smPZvC53Rw85qbiq8CdIrT-l8vg60XIUSXA9byRiqk/edit?gid=443275292#gid=443275292" target="_blank" rel="noopener noreferrer">
                     <FileWarning />
-                    <span>Locales Back</span>
+                    <span>Locales Eliminados</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
