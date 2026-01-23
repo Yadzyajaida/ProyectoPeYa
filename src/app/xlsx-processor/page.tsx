@@ -8,12 +8,13 @@ export default function XlsxProcessorPage() {
   return (
     <DashboardLayout>
       <header className="py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto justify-items-center">
           <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl font-headline">
-            Procesador XLSX Unificado
+            Procesador para codificación
           </h1>
           <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
-            Sube tus archivos de productos y opcionales para procesarlos de forma conjunta y descargarlos en formato CSV UTF-8.
+            Sube tus archivos de productos y opcionales para procesarlos de forma conjunta y descargarlos en formato CSV UTF-8, se descargan listos para codificar.
+            Descarga y sube tus archivos
           </p>
         </div>
       </header>

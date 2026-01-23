@@ -24,7 +24,7 @@ export default function Home() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <FileSpreadsheet className="w-10 h-10 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Procesador XLSX</CardTitle>
+                <CardTitle className="text-xl">Procesador para Codificar</CardTitle>
                 <CardDescription className="mt-2">
                   Convierte y procesa tus archivos XLSX a formato CSV (listo para subir).
                 </CardDescription>
@@ -50,9 +50,9 @@ export default function Home() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <LinkIcon className="w-10 h-10 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Generador de Enlaces</CardTitle>
+                <CardTitle className="text-xl">Generador de LInkS</CardTitle>
                 <CardDescription className="mt-2">
-                  Crea enlaces de catálogo de Backoffice a partir de una lista de IDs.
+                  Crea enlaces de catálogo de Backoffice o VBO a partir de una lista de IDs.
                 </CardDescription>
               </CardHeader>
             </Card>

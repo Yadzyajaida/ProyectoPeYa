@@ -40,19 +40,31 @@ function getNextPrefix(count: number): string {
     return String(count - alphabet.length + 1);
 }
 
+function trimTrailingEmptyRows(data: any[][]): any[][] {
+  let lastIndex = data.length - 1;
+
+  while (lastIndex >= 0) {
+    const row = data[lastIndex];
+    const hasRealData = row?.some(
+      cell => cell !== null && cell !== undefined && String(cell).trim() !== ''
+    );
+    if (hasRealData) break;
+    lastIndex--;
+  }
+
+  return data.slice(0, lastIndex + 1);
+}
 
 function processProductos(data: any[][]): { processedData: any[][]; log: string[], idToSkuMap: {[key: string]: string} } {
     if (data.length < 2) return { processedData: [], log: [], idToSkuMap: {} };
 
-    const header = data[0].map(h => String(h || '').trim());
-    const content = data.slice(1);
+    const cleaned = trimTrailingEmptyRows(data);
+    const header = cleaned[0].map(h => String(h || '').trim());
+    const content = cleaned.slice(1);
+
     const log: string[] = [];
     const idToSkuMap: {[key: string]: string} = {};
 
-    const requiredHeaders = [
-        'Sección', 'SKU Sección', 'SKU Name Sección', 'Nombre', 
-        'Precio', 'SKU', 'SKU Name', 'Descripción', 'Imagen'
-    ];
 
     const originalRequiredHeaders = [
         'ID', 'Sección', 'SKU Sección', 'SKU Name Sección', 'Nombre', 
@@ -67,7 +79,6 @@ function processProductos(data: any[][]): { processedData: any[][]; log: string[
         return { processedData: [], log, idToSkuMap: {} };
     }
     
-    // Create a new array with only the required columns in the correct order
     const orderedContent = content
         .filter(row => row && row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== ''))
         .map(row => {
@@ -78,6 +89,7 @@ function processProductos(data: any[][]): { processedData: any[][]; log: string[
     const idIndex = originalRequiredHeaders.indexOf('ID');
     const precioIndex = originalRequiredHeaders.indexOf('Precio');
     const skuIndex = originalRequiredHeaders.indexOf('SKU');
+    const nombreProductoIndex = originalRequiredHeaders.indexOf('Nombre');
 
     orderedContent.forEach(row => {
         const price = parseFloat(row[precioIndex]);
@@ -91,6 +103,7 @@ function processProductos(data: any[][]): { processedData: any[][]; log: string[
         const rawSku = row[skuIndex];
         const productId = String(row[idIndex]).trim();
         const excelRow = index + 2; 
+        const nombreProducto =  row[nombreProductoIndex]; 
 
         if (!productId) {
             log.push(`Fila ${excelRow}: Se omitió la fila por no tener ID de producto.`);
@@ -101,7 +114,7 @@ function processProductos(data: any[][]): { processedData: any[][]; log: string[
             const prefix = getNextPrefix(emptySkuCount);
             const newSku = prefix;
             row[skuIndex] = newSku;
-            log.push(`Fila ${excelRow} / ID ${productId}: SKU vacío rellenado con '${newSku}'.`);
+            log.push(`- Fila ${excelRow} / Nombre "${nombreProducto}": SKU vacío rellenado con '${newSku}'.`);
             idToSkuMap[productId] = newSku;
             emptySkuCount++;
             return;
@@ -112,13 +125,13 @@ function processProductos(data: any[][]): { processedData: any[][]; log: string[
             const count = skuCounts[originalSku];
             const prefix = getNextPrefix(count-1);
             const newSku = `${prefix}${originalSku}`;
-            log.push(`Fila ${excelRow} / ID ${productId}: SKU duplicado '${originalSku}' renombrado a '${newSku}'.`);
+            log.push(`- Fila ${excelRow} / Nombre "${nombreProducto}": SKU duplicado '${originalSku}' renombrado a '${newSku}'.`);
             row[skuIndex] = newSku;
             idToSkuMap[productId] = newSku;
             skuCounts[originalSku]++;
         } else {
             skuCounts[originalSku] = 1;
-            idToSkuMap[productId] = originalSku; // Also map non-modified SKUs
+            idToSkuMap[productId] = originalSku; 
         }
     });
 
@@ -137,14 +150,16 @@ function processProductos(data: any[][]): { processedData: any[][]; log: string[
 function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): { processedData: any[][], log: string[] } {
     if (data.length < 2) return { processedData: [], log: [] };
 
-    const header = data[0].map(h => String(h || '').trim());
-    const content = data.slice(1);
+    const cleaned = trimTrailingEmptyRows(data);
+    const header = cleaned[0].map(h => String(h || '').trim());
+    const content = cleaned.slice(1);
+    
     const log: string[] = [];
     const loggedProductIds = new Set<string>();
     
     const idProductoIndex = header.indexOf('ID Producto');
     const skuProductoIndex = header.indexOf('SKU Producto');
-
+ 
     if (idProductoIndex !== -1 && skuProductoIndex !== -1) {
       content.forEach((row) => {
           const productId = String(row[idProductoIndex]).trim();
@@ -153,7 +168,7 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
               const newSku = idToSkuMap[productId];
               
               if (String(oldSku).trim() !== newSku) {
-                  log.push(`ID Producto ${productId}: SKU actualizado a '${newSku}'.`);
+                  log.push(`- ID Producto ${productId}: SKU actualizado a '${newSku}'.`);
                   loggedProductIds.add(productId);
               }
           }
@@ -205,8 +220,8 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
 
     const skuOpcionalIndex = header.indexOf('SKU');
     if (skuOpcionalIndex !== -1 && idProductoIndex !== -1) {
-        // Group rows by "ID Producto"
-        const groupedByProduct: { [key: string]: any[][] } = {};
+
+      const groupedByProduct: { [key: string]: any[][] } = {};
         filteredContent.forEach(row => {
             if(!row) return;
             const productId = String(row[idProductoIndex]).trim();
@@ -216,7 +231,6 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
             groupedByProduct[productId].push(row);
         });
 
-        // Process each group for SKU validation
         for (const productId in groupedByProduct) {
             const productRows = groupedByProduct[productId];
             const skuCounts: { [key: string]: number } = {};
@@ -230,21 +244,22 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
                     const prefix = getNextPrefix(emptySkuCount);
                     const newSku = prefix;
                     row[skuOpcionalIndex] = newSku;
-                    log.push(`Fila ${excelRow}: SKU de opción vacío rellenado con '${newSku}'.`);
+                    log.push(`- Fila ${excelRow}: SKU de opción vacío rellenado con '${newSku}'.`);
                     emptySkuCount++;
-                    return;
-                }
-
-                const originalSku = String(rawSku).trim();
-                if (skuCounts[originalSku]) {
-                    const count = skuCounts[originalSku];
-                    const prefix = getNextPrefix(count - 1);
-                    const newSku = `${prefix}${originalSku}`;
-                    log.push(`Fila ${excelRow}: SKU de opción duplicado '${originalSku}' renombrado a '${newSku}'.`);
-                    row[skuOpcionalIndex] = newSku;
-                    skuCounts[originalSku]++;
                 } else {
-                    skuCounts[originalSku] = 1;
+                    if (productId !== '') {
+                        const originalSku = String(rawSku).trim();
+                        if (skuCounts[originalSku]) {
+                            const count = skuCounts[originalSku];
+                            const prefix = getNextPrefix(count - 1);
+                            const newSku = `${prefix}${originalSku}`;
+                            log.push(`- Fila ${excelRow}: SKU de opción duplicado '${originalSku}' renombrado a '${newSku}'.`);
+                            row[skuOpcionalIndex] = newSku;
+                            skuCounts[originalSku]++;
+                        } else {
+                            skuCounts[originalSku] = 1;
+                        }
+                    }
                 }
             });
         }
@@ -366,65 +381,50 @@ export async function processFiles(formData: FormData): Promise<MultiProcessResu
   }
 }
 
-export async function convertFiles(formData: FormData): Promise<MultiProcessResult> {
-  const files = formData.getAll('files') as File[];
+export async function convertFiles(
+  formData: FormData
+): Promise<ProcessResult[]> {
+  const files = formData.getAll("files") as File[];
 
-  if (!files || files.length === 0) {
-    return [{ error: 'Por favor, selecciona al menos un archivo.' }];
+  if (!files.length) {
+    return [{ error: "No se enviaron archivos" }];
   }
 
-  const results: ProcessResult[] = [];
+  return Promise.all(
+    files.map(async (file) => {
+      try {
+        if (!/\.(xls|xlsx)$/i.test(file.name)) {
+          return { error: "Archivo inválido", fileName: file.name };
+        }
 
-  for (const file of files) {
-    const fileNameLower = file.name.toLowerCase();
+        const buffer = Buffer.from(await file.arrayBuffer());
+        const workbook = xlsx.read(buffer, { type: "buffer" });
 
-    if (!fileNameLower.endsWith('.xlsx') && !fileNameLower.endsWith('.xls')) {
-      results.push({
-        error: `Tipo de archivo inválido para ${file.name}. Solo se admiten XLSX o XLS.`,
-        fileName: file.name,
-      });
-      continue;
-    }
+        const sheetName = workbook.SheetNames[0];
+        if (!sheetName) {
+          return { error: "No contiene hojas", fileName: file.name };
+        }
 
-    try {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const workbook = xlsx.read(buffer, { type: 'buffer' });
+        const worksheet = workbook.Sheets[sheetName];
 
-      const sheetName = workbook.SheetNames[0];
-      if (!sheetName) {
-        results.push({
-          error: `El archivo ${file.name} no contiene hojas.`,
-          fileName: file.name,
+        const csv = xlsx.utils.sheet_to_csv(worksheet, {
+          FS: ";",
+          RS: "\n",
+          blankrows: false,
         });
-        continue;
+
+        const utf8Buffer = Buffer.from("\uFEFF" + csv, "utf8");
+
+        return {
+          data: utf8Buffer.toString("base64"),
+          fileName: file.name.replace(/\.(xls|xlsx)$/i, ".csv"),
+        };
+      } catch (err) {
+        console.error(err);
+        return { error: "Error al convertir", fileName: file.name };
       }
-
-      const worksheet = workbook.Sheets[sheetName];
-
-      const csvString = xlsx.utils.sheet_to_csv(worksheet, {
-        FS: ';',
-        RS: '\n',
-        blankrows: false,
-      });
-
-      const BOM = '\uFEFF';
-      const originalFileName = file.name.replace(/\.(xls|xlsx)$/i, '');
-
-      results.push({
-        data: BOM + csvString,
-        fileName: `${originalFileName}.csv`,
-      });
-
-    } catch (e) {
-      console.error(`File conversion error for ${file.name}:`, e);
-      results.push({
-        error: `Error al convertir ${file.name}.`,
-        fileName: file.name,
-      });
-    }
-  }
-
-  return results;
+    })
+  );
 }
 
 export async function convertCsvToXlsx(formData: FormData): Promise<MultiProcessResult> {

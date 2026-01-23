@@ -102,15 +102,12 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
     startTransition(async () => {
       const response = await processAction(formData);
       setResults(response);
-      
-      const errors = response.filter(r => r.error && r.fileName !== 'opcionales_procesado.csv'); // Ignore "no data" error for optional file
-      const mainError = response.find(r => r.error && r.fileName !== 'opcionales_procesado.csv');
-
-      if (errors.length > 0 && mainError) {
-        toast({ variant: 'destructive', title: 'Proceso Fallido', description: mainError.error || 'Ocurrió un error.' });
-      } else {
-        toast({ title: 'Éxito', description: 'Archivos procesados. Listos para descargar.'});
-      }
+    
+      response
+        .filter(r => r.data && r.fileName)
+        .forEach(r => handleDownload(r));
+    
+      toast({ title: 'Éxito', description: 'Procesado y descargado automáticamente.' });
     });
   };
   
@@ -246,14 +243,6 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
               {successfulResults.length > 0 && (
                  <div className="p-4 text-center border-2 border-dashed rounded-lg bg-green-500/10 border-green-500/50 space-y-3">
                   <p className="font-medium text-green-700 dark:text-green-300">¡Proceso completado!</p>
-                  <div className='flex flex-wrap gap-4 justify-center'>
-                    {successfulResults.map(res => (
-                       <Button key={res.fileName} onClick={() => handleDownload(res)} variant="secondary">
-                           <DownloadCloud className="mr-2 h-4 w-4" />
-                           Descargar {res.fileName}
-                       </Button>
-                    ))}
-                  </div>
                 </div>
               )}
              
@@ -262,7 +251,7 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
                   <Alert>
                     <FilePenLine className="h-4 w-4" />
                     <AlertTitle>Modificaciones en Productos ({productosLog.length})</AlertTitle>
-                    <ScrollArea className="h-60 mt-2">
+                    <ScrollArea className="h-40 mt-2">
                       <AlertDescription>
                         <ul className="space-y-1 text-xs">
                           {productosLog.map((msg, index) => (
@@ -277,7 +266,7 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
                   <Alert>
                     <FilePenLine className="h-4 w-4" />
                     <AlertTitle>Modificaciones en Opcionales ({opcionalesLog.length})</AlertTitle>
-                    <ScrollArea className="h-60 mt-2">
+                    <ScrollArea className="h-40 mt-2">
                       <AlertDescription>
                         <ul className="space-y-1 text-xs">
                           {opcionalesLog.map((msg, index) => (

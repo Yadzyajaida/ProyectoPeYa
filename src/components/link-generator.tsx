@@ -27,7 +27,7 @@ import {
 
 const RATE_LIMIT = 50;
 const COOLDOWN_MS = 6 * 60 * 1000;
-const OPEN_DELAY_MS = 2000;
+const OPEN_DELAY_MS = 1200;
 
 const COOLDOWN_KEY = "linkGeneratorCooldownEndTime";
 const LAST_ID_KEY = "linkGeneratorLastProcessedId";
@@ -99,7 +99,7 @@ export function LinkGenerator() {
     }
   }, [openedCount, cooldown, toast]);
 
-  const handleGenerate = () => {
+  const handleGenerate = (linkType: 'BO' | 'VBO') => {
     if (cooldown > 0) {
       toast({
         variant: "destructive",
@@ -131,8 +131,13 @@ export function LinkGenerator() {
     
     setGeneratedLinks(
       batch.map(
-        (id) =>
-          `https://backoffice-app.pedidosya.com/#/partners/${id}/catalogue`
+        (id) => {
+          if (linkType === 'BO') {
+            return `https://backoffice-app.pedidosya.com/#/partners/${id}/catalogue`;
+          }
+          // VBO
+          return `https://vbo.us.logisticsbackoffice.com/vendor-management/vendors/PY_AR/vendor/${id}/default-attributes`;
+        }
       )
     );
     setIdsInput(batch.join('\n'));
@@ -222,11 +227,19 @@ export function LinkGenerator() {
 
             <div className="flex flex-wrap gap-2">
               <Button
-                onClick={handleGenerate}
+                onClick={() => handleGenerate('BO')}
                 disabled={cooldown > 0 || !idsInput.trim()}
               >
                 <Rocket className="mr-2 h-4 w-4" />
-                Generar enlaces
+                Enlaces BO
+              </Button>
+
+              <Button
+                onClick={() => handleGenerate('VBO')}
+                disabled={cooldown > 0 || !idsInput.trim()}
+              >
+                <Rocket className="mr-2 h-4 w-4" />
+                Enlaces VBO
               </Button>
 
               {generatedLinks.length > 0 && (

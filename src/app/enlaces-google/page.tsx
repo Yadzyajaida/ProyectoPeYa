@@ -8,7 +8,7 @@ export default function EnlacesGoogle() {
   return (
     <DashboardLayout>
       <header className="py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto justify-items-center">
           <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl font-headline">
             Documentos
           </h1>
@@ -32,15 +32,15 @@ export default function EnlacesGoogle() {
               </CardHeader>
             </Card>
           </a>
-          <a href="https://docs.google.com/spreadsheets/d/1xjyXZE-Euk_fUZcoLGDbzIjVdA9XUAmD/edit?gid=1033260094#gid=1033260094" target="_blank" rel="noopener noreferrer">
+          <a href="https://docs.google.com/spreadsheets/d/1hWMT321v8bN6avO_jA3TfjTsbhBSe3vIwHt0-T_r_nM/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
             <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <FileText className="w-10 h-10 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Templates Nice</CardTitle>
+                <CardTitle className="text-xl">Templates Faltantes</CardTitle>
                 <CardDescription className="mt-2">
-                  Templates amigables para las diversas gestiones.
+                  Templates genericos faltantes en HeroCare.
                 </CardDescription>
               </CardHeader>
             </Card>
