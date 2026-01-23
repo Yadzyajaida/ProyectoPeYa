@@ -24,6 +24,7 @@ import {
   Timer,
   Info,
 } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 const RATE_LIMIT = 50;
 const COOLDOWN_MS = 6 * 60 * 1000;
@@ -33,6 +34,24 @@ const COOLDOWN_KEY = "linkGeneratorCooldownEndTime";
 const LAST_ID_KEY = "linkGeneratorLastProcessedId";
 const OPENED_COUNT_KEY = "linkGeneratorOpenedCount";
 const OPENED_LINKS_KEY = "linkGeneratorOpenedLinks";
+
+const vboCountries = [
+  { value: 'PY_AR', label: 'Argentina' },
+  { value: 'PY_BO', label: 'Bolivia' },
+  { value: 'PY_CL', label: 'Chile' },
+  { value: 'PY_CR', label: 'Costa Rica' },
+  { value: 'PY_DO', label: 'Rep. Dominicana' },
+  { value: 'PY_EC', label: 'Ecuador' },
+  { value: 'PY_SV', label: 'El Salvador' },
+  { value: 'PY_GT', label: 'Guatemala' },
+  { value: 'PY_HN', label: 'Honduras' },
+  { value: 'PY_NI', label: 'Nicaragua' },
+  { value: 'AP_PA', label: 'Panamá' },
+  { value: 'PY_PY', label: 'Paraguay' },
+  { value: 'PY_PE', label: 'Perú' },
+  { value: 'PY_UY', label: 'Uruguay' },
+  { value: 'PY_VE', label: 'Venezuela' },
+];
 
 const getRemainingCooldown = () => {
   if (typeof window === 'undefined') return 0;
@@ -51,6 +70,7 @@ export function LinkGenerator() {
   const [isPending, startTransition] = useTransition();
   const [openedLinks, setOpenedLinks] = useState<Set<number>>(new Set());
   const [openedCount, setOpenedCount] = useState(0);
+  const [vboCountry, setVboCountry] = useState('');
 
   useEffect(() => {
     setCooldown(getRemainingCooldown());
@@ -109,6 +129,11 @@ export function LinkGenerator() {
       return;
     }
 
+    if (linkType === 'VBO' && !vboCountry) {
+        toast({ variant: "destructive", title: "Error", description: "Debes seleccionar un país para los enlaces VBO." });
+        return;
+    }
+
     const ids = idsInput
       .split(/[\s,]+/)
       .map((i) => i.trim())
@@ -136,7 +161,7 @@ export function LinkGenerator() {
             return `https://backoffice-app.pedidosya.com/#/partners/${id}/catalogue`;
           }
           // VBO
-          return `https://vbo.us.logisticsbackoffice.com/vendor-management/vendors/PY_AR/vendor/${id}/default-attributes`;
+          return `https://vbo.us.logisticsbackoffice.com/vendor-management/vendors/${vboCountry}/vendor/${id}/default-attributes`;
         }
       )
     );
@@ -184,6 +209,7 @@ export function LinkGenerator() {
     setLastId(null);
     setOpenedCount(0);
     setOpenedLinks(new Set());
+    setVboCountry('');
   
     localStorage.removeItem(LAST_ID_KEY);
     localStorage.removeItem(OPENED_COUNT_KEY);
@@ -223,9 +249,22 @@ export function LinkGenerator() {
                 onChange={(e) => setIdsInput(e.target.value)}
                 disabled={cooldown > 0}
               />
+              
+            </div>
+            <div>
+              <Select onValueChange={setVboCountry} value={vboCountry}>
+                <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="País para VBO" />
+                </SelectTrigger>
+                <SelectContent>
+                    {vboCountries.map(c => (
+                        <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 items-center">
               <Button
                 onClick={() => handleGenerate('BO')}
                 disabled={cooldown > 0 || !idsInput.trim()}
@@ -234,13 +273,15 @@ export function LinkGenerator() {
                 Enlaces BO
               </Button>
 
-              <Button
-                onClick={() => handleGenerate('VBO')}
-                disabled={cooldown > 0 || !idsInput.trim()}
-              >
-                <Rocket className="mr-2 h-4 w-4" />
-                Enlaces VBO
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  onClick={() => handleGenerate('VBO')}
+                  disabled={cooldown > 0 || !idsInput.trim() || !vboCountry}
+                >
+                  <Rocket className="mr-2 h-4 w-4" />
+                  Enlaces VBO
+                </Button>
+              </div>
 
               {generatedLinks.length > 0 && (
                 <Button onClick={handleOpenAll} disabled={isPending || cooldown > 0 || openedCount >= RATE_LIMIT}>
