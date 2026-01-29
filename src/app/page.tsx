@@ -19,7 +19,8 @@ export default function Home() {
       <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <Link href="/xlsx-processor">
-            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+            {/* Efecto glass aquí: backdrop-blur-sm, bg-card/80, border-border/50 */}
+            <Card className="h-full shadow-sm backdrop-blur-sm bg-card/80 border-border/50 transition-all duration-200 hover:shadow-lg hover:bg-card/90 hover:-translate-y-1">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <FileSpreadsheet className="w-10 h-10 text-primary" />
@@ -32,7 +33,8 @@ export default function Home() {
             </Card>
           </Link>
           <Link href="/xlsx-converter">
-            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+            {/* Efecto glass aquí: backdrop-blur-sm, bg-card/80, border-border/50 */}
+            <Card className="h-full shadow-sm backdrop-blur-sm bg-card/80 border-border/50 transition-all duration-200 hover:shadow-lg hover:bg-card/90 hover:-translate-y-1">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <FileCog className="w-10 h-10 text-primary" />
@@ -45,7 +47,8 @@ export default function Home() {
             </Card>
           </Link>
           <Link href="/link-generator">
-            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+            {/* Efecto glass aquí: backdrop-blur-sm, bg-card/80, border-border/50 */}
+            <Card className="h-full shadow-sm backdrop-blur-sm bg-card/80 border-border/50 transition-all duration-200 hover:shadow-lg hover:bg-card/90 hover:-translate-y-1">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <LinkIcon className="w-10 h-10 text-primary" />
@@ -58,7 +61,8 @@ export default function Home() {
             </Card>
           </Link>
           <Link href="/remote-id-generator">
-            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+            {/* Efecto glass aquí: backdrop-blur-sm, bg-card/80, border-border/50 */}
+            <Card className="h-full shadow-sm backdrop-blur-sm bg-card/80 border-border/50 transition-all duration-200 hover:shadow-lg hover:bg-card/90 hover:-translate-y-1">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <FileCode className="w-10 h-10 text-primary" />
@@ -71,7 +75,8 @@ export default function Home() {
             </Card>
           </Link>
           <Link href="/enlaces-google">
-            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+            {/* Efecto glass aquí: backdrop-blur-sm, bg-card/80, border-border/50 */}
+            <Card className="h-full shadow-sm backdrop-blur-sm bg-card/80 border-border/50 transition-all duration-200 hover:shadow-lg hover:bg-card/90 hover:-translate-y-1">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <FileText className="w-10 h-10 text-primary" />
