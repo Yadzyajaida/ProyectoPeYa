@@ -12,7 +12,7 @@ export default function Home() {
             Herramientas
           </h1>
           <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
-            Una colección de utilidades para simplificar tu trabajo.
+            Una colección de utilidades para simplificar y optimizar tu trabajo.
           </p>
         </div>
       </header>
@@ -25,7 +25,7 @@ export default function Home() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <FileSpreadsheet className="w-10 h-10 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Procesador para Codificar</CardTitle>
+                <CardTitle className="text-xl">Procesador para codificar</CardTitle>
                 <CardDescription className="mt-2">
                   Convierte y procesa tus archivos XLSX a formato CSV (listo para subir).
                 </CardDescription>
@@ -53,9 +53,9 @@ export default function Home() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <LinkIcon className="w-10 h-10 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Generador de LInkS</CardTitle>
+                <CardTitle className="text-xl">Generador de links</CardTitle>
                 <CardDescription className="mt-2">
-                  Crea enlaces de catálogo de Backoffice o VBO a partir de una lista de IDs.
+                  Crea enlaces de catálogo de Backoffice o VBO a partir de una lista de ID's.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -67,9 +67,9 @@ export default function Home() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <FileCode className="w-10 h-10 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Generador de Remote ID</CardTitle>
+                <CardTitle className="text-xl">Generador de remote ID's</CardTitle>
                 <CardDescription className="mt-2">
-                  Crea Remote IDs estandarizados para locales.
+                  Crea remote ID's estandarizados para la integración requerida.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -83,7 +83,7 @@ export default function Home() {
                 </div>
                 <CardTitle className="text-xl">Documentos</CardTitle>
                 <CardDescription className="mt-2">
-                  Una colección de documentos o sheets creados por el equipo para facilitar la gestión de integraciones.
+                  Una colección de documentos o sheets creados por el equipo para facilitar u optimizar la gestión de integraciones.
                 </CardDescription>
               </CardHeader>
             </Card>
