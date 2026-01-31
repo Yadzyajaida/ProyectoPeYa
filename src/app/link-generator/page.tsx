@@ -9,7 +9,7 @@ export default function LinkGeneratorPage() {
       <header className="py-8 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-7xl mx-auto justify-items-center">
           <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl font-headline">
-            Generador de Enlaces
+            Generador de enlaces
           </h1>
           <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
             Pega una lista de IDs para generar enlaces de Backoffice o VBO masivamente.
