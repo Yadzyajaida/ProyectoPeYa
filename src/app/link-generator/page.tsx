@@ -12,7 +12,7 @@ export default function LinkGeneratorPage() {
             Generador de enlaces
           </h1>
           <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
-            Pega una lista de IDs para generar enlaces de Backoffice o VBO masivamente.
+            Pega una lista de ID's para generar enlaces de Backoffice o VBO masivamente.
           </p>
         </div>
       </header>
