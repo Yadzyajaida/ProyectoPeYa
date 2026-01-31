@@ -10,7 +10,7 @@ export default function XlsxConverterPage() {
       <header className="py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto justify-items-center">
           <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl font-headline">
-            Convertidor de Archivos
+            Convertidor de archivos
           </h1>
           <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
             Sube tus archivos para convertirlos entre diferentes formatos.
