@@ -13,7 +13,7 @@ export default function EnlacesGoogle() {
             Documentos
           </h1>
           <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
-            Una colección de documentos o sheets creados por el equipo para facilitar la gestión de integraciones.
+            Una colección de documentos o sheets creados por el equipo para facilita u optimizar la gestión de integraciones.
           </p>
         </div>
       </header>
@@ -25,7 +25,7 @@ export default function EnlacesGoogle() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <FileText className="w-10 h-10 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Guía de Escalaciones</CardTitle>
+                <CardTitle className="text-xl">Guía de escalaciones</CardTitle>
                 <CardDescription className="mt-2">
                   Consulta las rutas para escalaciones urgentes.
                 </CardDescription>
@@ -38,7 +38,7 @@ export default function EnlacesGoogle() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <FileText className="w-10 h-10 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Templates Faltantes</CardTitle>
+                <CardTitle className="text-xl">Templates faltantes</CardTitle>
                 <CardDescription className="mt-2">
                   Templates genericos faltantes en HeroCare.
                 </CardDescription>
@@ -51,9 +51,9 @@ export default function EnlacesGoogle() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <FileText className="w-10 h-10 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Lista de Locales Integradas</CardTitle>
+                <CardTitle className="text-xl">Lista de locales integrados</CardTitle>
                 <CardDescription className="mt-2">
-                  Lista de Tiendas Integradas en menús compartidos para identificar o añadir.
+                  Lista de distintos catalogos compartidos, se identifica el local integrado en cada uno de ellos.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -66,7 +66,7 @@ export default function EnlacesGoogle() {
                 </div>
                 <CardTitle className="text-xl">Locales eliminados asignados</CardTitle>
                 <CardDescription className="mt-2">
-                  Lista de Locales eliminados para utlilziar asignados para identificar o añadir.
+                  Lista de locales eliminados asignados para realizar las diversas gestiones por agente.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -77,9 +77,9 @@ export default function EnlacesGoogle() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <FileText className="w-10 h-10 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Identificador de Locales</CardTitle>
+                <CardTitle className="text-xl">Identificador de locales</CardTitle>
                 <CardDescription className="mt-2">
-                  Lista de Locales clasificados por su Identificador de Locales IB,KA y LT
+                  Lista de locales clasificados por su identificador: IB,KA y LT.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -92,7 +92,7 @@ export default function EnlacesGoogle() {
                 </div>
                 <CardTitle className="text-xl">Tipificación por SOP | IS | HeroCare </CardTitle>
                 <CardDescription className="mt-2">
-                  Tipificaciones de casos de HeroCare clasificadas por SOP
+                  Tipificaciones de casos de HeroCare clasificadas por SOP.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -103,9 +103,9 @@ export default function EnlacesGoogle() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4">
                   <FileText className="w-10 h-10 text-primary" />
                 </div>
-                <CardTitle className="text-xl">Seteo Masivo</CardTitle>
+                <CardTitle className="text-xl">Seteo masivo</CardTitle>
                 <CardDescription className="mt-2">
-                  Saca una copia, cambia los datos y subelo a Vendor
+                  Saca una copia, cambia los datos y subelo a Vendor para realizar un seteo masivo.
                 </CardDescription>
               </CardHeader>
             </Card>
