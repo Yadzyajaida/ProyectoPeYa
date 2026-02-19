@@ -1,6 +1,6 @@
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { FileCode, Type, FileText, FileSpreadsheet, FileCog, Link as LinkIcon, FileWarning, Fingerprint } from 'lucide-react';
+import { Play, FileCode, Type, FileText, FileSpreadsheet, FileCog, Link as LinkIcon, FileWarning, Fingerprint } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -12,18 +12,17 @@ export default function Home() {
             Herramientas
           </h1>
           <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
-            Una colección de utilidades para simplificar y optimizar tu trabajo.
+            Una colección de utilidades para optimizar tu trabajo.
           </p>
         </div>
       </header>
       <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <Link href="/xlsx-processor">
-            {/* Efecto glass aquí: backdrop-blur-sm, bg-card/80, border-border/50 */}
-            <Card className="h-full shadow-sm backdrop-blur-sm bg-card/80 border-border/50 transition-all duration-200 hover:shadow-lg hover:bg-card/90 hover:-translate-y-1">
+            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
-                <div className="p-4 bg-primary/10 rounded-full mb-4">
-                  <FileSpreadsheet className="w-10 h-10 text-primary" />
+                <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
+                  <FileSpreadsheet className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
                 </div>
                 <CardTitle className="text-xl">Procesador para codificar</CardTitle>
                 <CardDescription className="mt-2">
@@ -33,11 +32,10 @@ export default function Home() {
             </Card>
           </Link>
           <Link href="/xlsx-converter">
-            {/* Efecto glass aquí: backdrop-blur-sm, bg-card/80, border-border/50 */}
-            <Card className="h-full shadow-sm backdrop-blur-sm bg-card/80 border-border/50 transition-all duration-200 hover:shadow-lg hover:bg-card/90 hover:-translate-y-1">
+            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
-                <div className="p-4 bg-primary/10 rounded-full mb-4">
-                  <FileCog className="w-10 h-10 text-primary" />
+                <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
+                  <FileCog className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
                 </div>
                 <CardTitle className="text-xl">Convertidor</CardTitle>
                 <CardDescription className="mt-2">
@@ -47,43 +45,53 @@ export default function Home() {
             </Card>
           </Link>
           <Link href="/link-generator">
-            {/* Efecto glass aquí: backdrop-blur-sm, bg-card/80, border-border/50 */}
-            <Card className="h-full shadow-sm backdrop-blur-sm bg-card/80 border-border/50 transition-all duration-200 hover:shadow-lg hover:bg-card/90 hover:-translate-y-1">
+            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
-                <div className="p-4 bg-primary/10 rounded-full mb-4">
-                  <LinkIcon className="w-10 h-10 text-primary" />
+                <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
+                  <LinkIcon className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
                 </div>
-                <CardTitle className="text-xl">Generador de links</CardTitle>
+                <CardTitle className="text-xl">Apertura de multipágina</CardTitle>
                 <CardDescription className="mt-2">
-                  Crea enlaces de catálogo de Backoffice o VBO a partir de una lista de ID's.
+                  Crea enlaces de catálogo de BO o VBO a partir de una lista de ID's.
                 </CardDescription>
               </CardHeader>
             </Card>
           </Link>
-          <Link href="/remote-id-generator">
-            {/* Efecto glass aquí: backdrop-blur-sm, bg-card/80, border-border/50 */}
-            <Card className="h-full shadow-sm backdrop-blur-sm bg-card/80 border-border/50 transition-all duration-200 hover:shadow-lg hover:bg-card/90 hover:-translate-y-1">
+          <a href="https://ppsimulatorcnx.netlify.app/" target="_blank" rel="noopener noreferrer">
+            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
-                <div className="p-4 bg-primary/10 rounded-full mb-4">
-                  <FileCode className="w-10 h-10 text-primary" />
+                <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
+                  <Play className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
                 </div>
-                <CardTitle className="text-xl">Generador de remote ID's</CardTitle>
+                <CardTitle className="text-xl">Simulador partner portal</CardTitle>
                 <CardDescription className="mt-2">
-                  Crea remote ID's estandarizados para la integración requerida.
+                  Simulador del portal partner para verificar rutas o tener una guia visual de las mismas.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </a>
+          <Link href="/remote-id-generator">
+            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
+              <CardHeader className="flex flex-col items-center justify-center text-center p-6">
+                <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
+                  <FileCode className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
+                </div>
+                <CardTitle className="text-xl">Generador de remote ID</CardTitle>
+                <CardDescription className="mt-2">
+                  Crea un remote ID estandarizado según el nombre del local.
                 </CardDescription>
               </CardHeader>
             </Card>
           </Link>
           <Link href="/enlaces-google">
-            {/* Efecto glass aquí: backdrop-blur-sm, bg-card/80, border-border/50 */}
-            <Card className="h-full shadow-sm backdrop-blur-sm bg-card/80 border-border/50 transition-all duration-200 hover:shadow-lg hover:bg-card/90 hover:-translate-y-1">
+            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
-                <div className="p-4 bg-primary/10 rounded-full mb-4">
-                  <FileText className="w-10 h-10 text-primary" />
+                <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
+                  <FileText className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
                 </div>
                 <CardTitle className="text-xl">Documentos</CardTitle>
                 <CardDescription className="mt-2">
-                  Una colección de documentos o sheets creados por el equipo para facilitar u optimizar la gestión de integraciones.
+                  Una colección de documentos o sheets creados por el equipo para facilitar la gestión de integraciones.
                 </CardDescription>
               </CardHeader>
             </Card>

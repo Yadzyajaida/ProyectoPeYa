@@ -162,14 +162,14 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
  
     if (idProductoIndex !== -1 && skuProductoIndex !== -1) {
       content.forEach((row) => {
-          const productId = String(row[idProductoIndex]).trim();
-          if (idToSkuMap[productId] && !loggedProductIds.has(productId)) {
+          const skuProducto = String(row[skuProductoIndex]).trim();
+          if (idToSkuMap[skuProducto] && !loggedProductIds.has(skuProducto)) {
               const oldSku = row[skuProductoIndex];
-              const newSku = idToSkuMap[productId];
+              const newSku = idToSkuMap[skuProducto];
               
               if (String(oldSku).trim() !== newSku) {
-                  log.push(`- ID Producto ${productId}: SKU actualizado a '${newSku}'.`);
-                  loggedProductIds.add(productId);
+                  log.push(`- Nombre de producto ${skuProducto}: SKU actualizado a '${newSku}'.`);
+                  loggedProductIds.add(skuProducto);
               }
           }
       });
@@ -189,6 +189,7 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
     const originalRowIndex = header.length;
     
     const cantidadGrupoIndex = header.indexOf('Cantidad Grupo de opciones');
+    const nombreGrupoIndex = header.indexOf('Grupo de opciones');
     const cantidadMinIndex = header.indexOf('Cantidad mínima Grupo de opciones');
     const cantidadMaxIndex = header.indexOf('Cantidad máxima Grupo de opciones');
         
@@ -221,9 +222,9 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
     const skuOpcionalIndex = header.indexOf('SKU');
     if (skuOpcionalIndex !== -1 && idProductoIndex !== -1) {
 
-      const groupedByProduct: { [key: string]: any[][] } = {};
+        const groupedByProduct: { [key: string]: any[][] } = {};
         filteredContent.forEach(row => {
-            if(!row) return;
+            if (!row) return;
             const productId = String(row[idProductoIndex]).trim();
             if (!groupedByProduct[productId]) {
                 groupedByProduct[productId] = [];
@@ -233,35 +234,48 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
 
         for (const productId in groupedByProduct) {
             const productRows = groupedByProduct[productId];
-            const skuCounts: { [key: string]: number } = {};
-            let emptySkuCount = 0;
-            
-            productRows.forEach(row => {
-                const rawSku = row[skuOpcionalIndex];
-                const excelRow = row[originalRowIndex];
 
-                if (rawSku === null || rawSku === undefined || String(rawSku).trim() === '') {
-                    const prefix = getNextPrefix(emptySkuCount);
-                    const newSku = prefix;
-                    row[skuOpcionalIndex] = newSku;
-                    log.push(`- Fila ${excelRow}: SKU de opción vacío rellenado con '${newSku}'.`);
-                    emptySkuCount++;
-                } else {
-                    if (productId !== '') {
-                        const originalSku = String(rawSku).trim();
-                        if (skuCounts[originalSku]) {
-                            const count = skuCounts[originalSku];
-                            const prefix = getNextPrefix(count - 1);
-                            const newSku = `${prefix}${originalSku}`;
-                            log.push(`- Fila ${excelRow}: SKU de opción duplicado '${originalSku}' renombrado a '${newSku}'.`);
-                            row[skuOpcionalIndex] = newSku;
-                            skuCounts[originalSku]++;
-                        } else {
-                            skuCounts[originalSku] = 1;
+            const groupedByOptionGroup: { [key: string]: any[][] } = {};
+            productRows.forEach(row => {
+                const nombreGrupo = String(row[nombreGrupoIndex]).trim();
+                if (!groupedByOptionGroup[nombreGrupo]) {
+                    groupedByOptionGroup[nombreGrupo] = [];
+                }
+                groupedByOptionGroup[nombreGrupo].push(row);
+            });
+
+            for (const groupName in groupedByOptionGroup) {
+                const groupRows = groupedByOptionGroup[groupName];
+                const skuCounts: { [key: string]: number } = {};
+                let emptySkuCount = 0;
+
+                groupRows.forEach(row => {
+                    const rawSku = row[skuOpcionalIndex];
+                    const excelRow = row[originalRowIndex];
+
+                    if (rawSku === null || rawSku === undefined || String(rawSku).trim() === '') {
+                        const prefix = getNextPrefix(emptySkuCount);
+                        const newSku = prefix;
+                        row[skuOpcionalIndex] = newSku;
+                        log.push(`- Fila ${excelRow}: SKU de opción vacío rellenado con '${newSku}'.`);
+                        emptySkuCount++;
+                    } else {
+                        if (productId !== '') {
+                            const originalSku = String(rawSku).trim();
+                            if (skuCounts[originalSku]) {
+                                const count = skuCounts[originalSku];
+                                const prefix = getNextPrefix(count - 1);
+                                const newSku = `${prefix}${originalSku}`;
+                                log.push(`- Fila ${excelRow}: SKU de opción duplicado '${originalSku}' dentro del grupo '${groupName}' renombrado a '${newSku}'.`);
+                                row[skuOpcionalIndex] = newSku;
+                                skuCounts[originalSku]++;
+                            } else {
+                                skuCounts[originalSku] = 1;
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
         }
     }
 

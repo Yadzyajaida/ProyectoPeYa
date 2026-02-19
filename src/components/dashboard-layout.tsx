@@ -15,9 +15,10 @@ import {
   SidebarFooter,
   useSidebar,
   SidebarMenuSub,
+  SidebarMenuSubButton,
 } from '@/components/ui/sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { FileCode, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint } from 'lucide-react';
+import { Play, FileCode, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
@@ -140,8 +141,19 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               >
                 <Link href="/link-generator">
                   <LinkIcon />
-                  <span>Generador Links</span>
+                  <span>Apertura de multipágina</span>
                 </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                tooltip="Simulador Portal"
+              >
+                <a href="https://ppsimulatorcnx.netlify.app/" target="_blank" rel="noopener noreferrer">
+                  <Play />
+                  <span>Simulador partner portal</span>
+                </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
@@ -168,51 +180,51 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 </Link>
               </SidebarMenuButton>
               <SidebarMenuSub>
-                <SidebarMenuButton asChild tooltip="Escalaciones">
+                <SidebarMenuSubButton asChild>
                   <a href="https://docs.google.com/document/d/1OqGgsJzInXzzqnQOXTCcP0ACF0BhEXi2YjTvPpbLOC0/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
                     <Minus className="w-3 h-3" />
                     <span>Escalaciones</span>
                   </a>
-                </SidebarMenuButton>
+                </SidebarMenuSubButton>
 
-                <SidebarMenuButton asChild tooltip="Templates">
+                <SidebarMenuSubButton asChild>
                   <a href="https://docs.google.com/spreadsheets/d/1hWMT321v8bN6avO_jA3TfjTsbhBSe3vIwHt0-T_r_nM/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
                     <Minus className="w-3 h-3" />
                     <span>Templates Faltantes</span>
                   </a>
-                </SidebarMenuButton>
+                </SidebarMenuSubButton>
 
-                <SidebarMenuButton asChild tooltip="Lista Integradas">
+                <SidebarMenuSubButton asChild>
                   <a href="https://docs.google.com/spreadsheets/d/1_w8qumDWMf3cx1o5PGXyWlSMs1_KwxUwVBRAEQ3yeQE/edit?gid=240001792#gid=240001792" target="_blank" rel="noopener noreferrer">
                     <Minus className="w-3 h-3" />
                     <span>Lista Integradas</span>
                   </a>
-                </SidebarMenuButton>
+                </SidebarMenuSubButton>
 
-                <SidebarMenuButton asChild tooltip="Locales Eliminados">
+                <SidebarMenuSubButton asChild>
                   <a href="https://docs.google.com/spreadsheets/d/18smPZvC53Rw85qbiq8CdIrT-l8vg60XIUSXA9byRiqk/edit?gid=443275292#gid=443275292" target="_blank" rel="noopener noreferrer">
                     <Minus className="w-3 h-3" />
                     <span>Locales Eliminados</span>
                   </a>
-                </SidebarMenuButton>
-                <SidebarMenuButton asChild tooltip="Identificador Locales">
+                </SidebarMenuSubButton>
+                <SidebarMenuSubButton asChild>
                   <a href="https://docs.google.com/spreadsheets/d/1putMthnP2F_1wiMDnCs-v8Femy4lo4NDcBAXD9S8aVw/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer">
                     <Minus className="w-3 h-3" />
                     <span>Identificador Locales</span>
                   </a>
-                </SidebarMenuButton>
-                <SidebarMenuButton asChild tooltip="Tipificación">
+                </SidebarMenuSubButton>
+                <SidebarMenuSubButton asChild>
                   <a href="https://docs.google.com/spreadsheets/d/1vPueVoGogcdpLTgsvfqj3S0AT5xBdGHQ6w0pja7xZ7s/edit?pli=1&gid=1564924724#gid=1564924724" target="_blank" rel="noopener noreferrer">
                     <Minus className="w-3 h-3" />
                     <span>Tipificación</span>
                   </a>
-                </SidebarMenuButton>
-                <SidebarMenuButton asChild tooltip="Seteo Masivo">
+                </SidebarMenuSubButton>
+                <SidebarMenuSubButton asChild>
                   <a href="https://docs.google.com/spreadsheets/d/1vPueVoGogcdpLTgsvfqj3S0AT5xBdGHQ6w0pja7xZ7s/edit?pli=1&gid=1564924724#gid=1564924724" target="_blank" rel="noopener noreferrer">
                     <Minus className="w-3 h-3" />
                     <span>Seteo Masivo</span>
                   </a>
-                </SidebarMenuButton>
+                </SidebarMenuSubButton>
               </SidebarMenuSub>
             </SidebarMenuItem>
           </SidebarMenu>

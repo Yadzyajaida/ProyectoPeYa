@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useTransition, type ComponentProps } from "react";
@@ -20,6 +21,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "./ui/scroll-area";
+import { motion } from "framer-motion";
 
 type ProcessResult = {
   data?: string;
@@ -136,7 +138,16 @@ export function FileConverter({
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
           <label className="flex flex-col items-center justify-center h-40 border-2 border-dashed rounded-lg cursor-pointer">
-            <UploadCloud className="w-10 h-10 mb-2" />
+            <motion.div
+              whileHover={{ y: [0, -8, 0] }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                repeatType: "mirror",
+              }}
+            >
+              <UploadCloud className="w-10 h-10 mb-2" />
+            </motion.div>
             <p className="text-sm">{fileTypeDescription}</p>
             <Input
               ref={fileInputRef}
@@ -163,7 +174,9 @@ export function FileConverter({
                       setSelectedFiles((f) => f.filter((_, x) => x !== i))
                     }
                   >
-                    <X className="w-4 h-4" />
+                    <motion.div whileHover={{ rotate: [-10, 10, 0], scale: 1.3 }} transition={{ duration: 0.3 }}>
+                      <X className="w-4 h-4" />
+                    </motion.div>
                   </Button>
                 </div>
               ))}

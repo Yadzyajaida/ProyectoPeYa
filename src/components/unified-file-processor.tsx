@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useTransition, type ComponentProps } from 'react';
@@ -6,10 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { UploadCloud, FileText, X, DownloadCloud, Loader2, Info, FileCheck2, Package, PackagePlus, FilePenLine } from 'lucide-react';
+import { Info, AlertTriangle, X, UploadCloud, FileText, DownloadCloud, Loader2, FileCheck2, Package, PackagePlus, FilePenLine } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { ScrollArea } from './ui/scroll-area';
+import { motion } from "framer-motion";
 
 type ProcessResult = {
   data?: string;
@@ -174,7 +176,16 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
                 )}
               >
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <UploadCloud className="w-10 h-10 mb-3 text-muted-foreground" />
+                  <motion.div
+                    whileHover={{ y: [0, -8, 0] }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      repeatType: "mirror",
+                    }}
+                  >
+                    <UploadCloud className="w-10 h-10 mb-3 text-muted-foreground" />
+                  </motion.div>
                   <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold text-primary">Subir Archivos</span></p>
                   <p className="text-xs text-muted-foreground">Arrastra y suelta 'productos' y 'opcionales' (.xlsx)</p>
                 </div>
@@ -195,7 +206,11 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
                             <span className="text-xs text-muted-foreground">Archivo de Productos (Obligatorio)</span>
                           </div>
                         </div>
-                        {productosFile && <Button variant="ghost" size="icon" onClick={() => removeFile('productos')} className="text-muted-foreground hover:text-destructive flex-shrink-0"><X className="w-4 h-4" /></Button>}
+                        {productosFile && <Button variant="ghost" size="icon" onClick={() => removeFile('productos')} className="text-muted-foreground hover:text-destructive flex-shrink-0">
+                            <motion.div whileHover={{ rotate: [-10, 10, 0], scale: 1.3 }} transition={{ duration: 0.3 }}>
+                                <X className="w-4 h-4" />
+                            </motion.div>
+                        </Button>}
                       </div>
                     </div>
                     {/* Opcionales File */}
@@ -208,7 +223,11 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
                             <span className="text-xs text-muted-foreground">Archivo de Opcionales (Opcional)</span>
                           </div>
                         </div>
-                        {opcionalesFile && <Button variant="ghost" size="icon" onClick={() => removeFile('opcionales')} className="text-muted-foreground hover:text-destructive flex-shrink-0"><X className="w-4 h-4" /></Button>}
+                        {opcionalesFile && <Button variant="ghost" size="icon" onClick={() => removeFile('opcionales')} className="text-muted-foreground hover:text-destructive flex-shrink-0">
+                            <motion.div whileHover={{ rotate: [-10, 10, 0], scale: 1.3 }} transition={{ duration: 0.3 }}>
+                                <X className="w-4 h-4" />
+                            </motion.div>
+                        </Button>}
                       </div>
                     </div>
                 </div>
@@ -251,7 +270,7 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
                   <Alert>
                     <FilePenLine className="h-4 w-4" />
                     <AlertTitle>Modificaciones en Productos ({productosLog.length})</AlertTitle>
-                    <ScrollArea className="h-40 mt-2">
+                    <ScrollArea className="h-60 mt-2">
                       <AlertDescription>
                         <ul className="space-y-1 text-xs">
                           {productosLog.map((msg, index) => (
@@ -266,7 +285,7 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
                   <Alert>
                     <FilePenLine className="h-4 w-4" />
                     <AlertTitle>Modificaciones en Opcionales ({opcionalesLog.length})</AlertTitle>
-                    <ScrollArea className="h-40 mt-2">
+                    <ScrollArea className="h-60 mt-2">
                       <AlertDescription>
                         <ul className="space-y-1 text-xs">
                           {opcionalesLog.map((msg, index) => (
