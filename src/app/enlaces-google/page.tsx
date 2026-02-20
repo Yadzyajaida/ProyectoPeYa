@@ -25,7 +25,7 @@ export default function EnlacesGoogle() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
                   <FileText className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
                 </div>
-                <CardTitle className="text-xl">Guía de Escalaciones</CardTitle>
+                <CardTitle className="text-xl">Guía de escalaciones</CardTitle>
                 <CardDescription className="mt-2">
                   Consulta las rutas para escalaciones urgentes.
                 </CardDescription>
@@ -38,7 +38,7 @@ export default function EnlacesGoogle() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
                   <FileText className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
                 </div>
-                <CardTitle className="text-xl">Templates Faltantes</CardTitle>
+                <CardTitle className="text-xl">Templates faltantes</CardTitle>
                 <CardDescription className="mt-2">
                   Templates genericos faltantes en HeroCare.
                 </CardDescription>
@@ -51,9 +51,9 @@ export default function EnlacesGoogle() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
                   <FileText className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
                 </div>
-                <CardTitle className="text-xl">Lista de Locales Integradas</CardTitle>
+                <CardTitle className="text-xl">Lista de locales integrados</CardTitle>
                 <CardDescription className="mt-2">
-                  Lista de Tiendas Integradas en menús compartidos para identificar o añadir.
+                  Lista de locales integrados en menús compartidos para identificar o añadir.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -66,7 +66,7 @@ export default function EnlacesGoogle() {
                 </div>
                 <CardTitle className="text-xl">Locales eliminados asignados</CardTitle>
                 <CardDescription className="mt-2">
-                  Lista de Locales eliminados para utlilziar asignados para identificar o añadir.
+                  Lista de locales eliminados asignados por agente para realizar las distintas gestiones.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -77,9 +77,9 @@ export default function EnlacesGoogle() {
                 <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
                   <FileText className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
                 </div>
-                <CardTitle className="text-xl">Identificador de Locales</CardTitle>
+                <CardTitle className="text-xl">Identificador de locales</CardTitle>
                 <CardDescription className="mt-2">
-                  Lista de Locales clasificados por su Identificador de Locales IB,KA y LT
+                  Lista de Locales clasificados por su Identificador de Locales IB, KA y LT.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -92,20 +92,20 @@ export default function EnlacesGoogle() {
                 </div>
                 <CardTitle className="text-xl">Tipificación por SOP | IS | HeroCare </CardTitle>
                 <CardDescription className="mt-2">
-                  Tipificaciones de casos de HeroCare clasificadas por SOP
+                  Tipificaciones de casos de HeroCare clasificadas por SOP.
                 </CardDescription>
               </CardHeader>
             </Card>
           </a>
-          <a href="https://docs.google.com/spreadsheets/d/1vPueVoGogcdpLTgsvfqj3S0AT5xBdGHQ6w0pja7xZ7s/edit?pli=1&gid=1564924724#gid=1564924724" target="_blank" rel="noopener noreferrer">
+          <a href="https://docs.google.com/spreadsheets/d/1BeRxNczq38JY6Qbi0aovYiNCVP9_P8lBVea7ALS9u5A/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer">
             <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                 <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
                   <FileText className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
                 </div>
-                <CardTitle className="text-xl">Seteo Masivo</CardTitle>
+                <CardTitle className="text-xl">Seteo masivo</CardTitle>
                 <CardDescription className="mt-2">
-                  Saca una copia, cambia los datos y subelo a Vendor
+                  Saca una copia, llena los datos de cada local y subelo a Vendor.
                 </CardDescription>
               </CardHeader>
             </Card>

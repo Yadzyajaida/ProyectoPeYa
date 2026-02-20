@@ -220,7 +220,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                   </a>
                 </SidebarMenuSubButton>
                 <SidebarMenuSubButton asChild>
-                  <a href="https://docs.google.com/spreadsheets/d/1vPueVoGogcdpLTgsvfqj3S0AT5xBdGHQ6w0pja7xZ7s/edit?pli=1&gid=1564924724#gid=1564924724" target="_blank" rel="noopener noreferrer">
+                  <a href="https://docs.google.com/spreadsheets/d/1BeRxNczq38JY6Qbi0aovYiNCVP9_P8lBVea7ALS9u5A/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer">
                     <Minus className="w-3 h-3" />
                     <span>Seteo Masivo</span>
                   </a>
