@@ -1,6 +1,6 @@
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Play, FileCode, Type, FileText, FileSpreadsheet, FileCog, Link as LinkIcon, FileWarning, Fingerprint } from 'lucide-react';
+import { Play, Settings, FileCode, Type, FileText, FileSpreadsheet, FileCog, Link as LinkIcon, FileWarning, Fingerprint } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -66,6 +66,19 @@ export default function Home() {
                 <CardTitle className="text-xl">Simulador partner portal</CardTitle>
                 <CardDescription className="mt-2">
                   Simulador del portal partner para verificar rutas o tener una guia visual de las mismas.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </a>
+          <a href="https://script.google.com/a/macros/pedidosya.com/s/AKfycbyHpFIGYTL6AFEJy4ckByZzCexJmhvyv7CXpr6rLEt3BcXTZ7xhejSuQqGqZk2D_bAB-A/exec" target="_blank" rel="noopener noreferrer">
+            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
+              <CardHeader className="flex flex-col items-center justify-center text-center p-6">
+                <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
+                  <Settings className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
+                </div>
+                <CardTitle className="text-xl">Onboarding PedidosYa</CardTitle>
+                <CardDescription className="mt-2">
+                  Consulta si un local se encuentra en proceso de onboarding y todo el detalle del mismo.
                 </CardDescription>
               </CardHeader>
             </Card>

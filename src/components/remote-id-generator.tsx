@@ -40,23 +40,23 @@ const countries = [
 type GeneratedIdData = {
   localName: string;
   remoteId: string;
+  id?: string;
 };
 
 export function RemoteIdGenerator() {
   const { toast } = useToast();
   const [country, setCountry] = useState('');
-  const [namesInput, setNamesInput] = useState('');
-  const [idsInput, setIdsInput] = useState('');
+  const [inputData, setInputData] = useState('');
   const [generatedData, setGeneratedData] = useState<GeneratedIdData[]>([]);
   const [isCopied, setIsCopied] = useState(false);
   
   const normalizeText = (text: string) => {
     return text
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "") // Remove accents
-      .replace(/[^a-zA-Z0-9 ]/g, '') // Remove non-alphanumeric characters except spaces
+      .replace(/[\u0300-\u036f]/g, "") 
+      .replace(/[^a-zA-Z0-9 ]/g, '') 
       .trim()
-      .replace(/\s+/g, '-'); // Replace spaces with dashes
+      .replace(/\s+/g, '-'); 
   };
 
   const handleGenerate = () => {
@@ -64,25 +64,28 @@ export function RemoteIdGenerator() {
       toast({ variant: 'destructive', title: 'Error', description: 'Debes seleccionar un país.' });
       return;
     }
-    if (!namesInput.trim()) {
-      toast({ variant: 'destructive', title: 'Error', description: 'El campo de nombres de locales no puede estar vacío.' });
+    if (!inputData.trim()) {
+      toast({ variant: 'destructive', title: 'Error', description: 'El campo de entrada no puede estar vacío.' });
       return;
     }
 
-    const localNames = namesInput.split('\n').map(name => name.trim()).filter(name => name.length > 0);
-    const optionalIds = idsInput.split('\n').map(id => id.trim()).filter(id => id.length > 0);
+    const lines = inputData.split('\n').filter(line => line.trim().length > 0);
 
-    if (optionalIds.length > 0 && optionalIds.length !== localNames.length) {
-        toast({ variant: 'destructive', title: 'Error de Coincidencia', description: 'La cantidad de IDs debe coincidir con la cantidad de nombres de locales.' });
-        return;
-    }
+    const remoteIdsData = lines.map(line => {
+      const match = line.match(/^(\d+)|(\d+)$/);
+      let id, localName;
 
-    const remoteIdsData = localNames.map((name, index) => {
-      const normalizedName = normalizeText(name);
-      const idPart = optionalIds[index] ? `${normalizeText(optionalIds[index])}` : '';
-      const remoteId = `${country}-${normalizedName}${idPart ? '-' + idPart : ''}-0001`.toUpperCase();
+      if (match) {
+        id = match[0];
+        localName = line.replace(id, '').trim();
+      } else {
+        localName = line.trim();
+      }
 
-      return { localName: name, remoteId };
+      const normalizedName = normalizeText(localName);
+      const remoteId = `${country}-${normalizedName}-0001`.toUpperCase();
+
+      return { localName, remoteId, id };
     });
     
     setGeneratedData(remoteIdsData);
@@ -93,7 +96,7 @@ export function RemoteIdGenerator() {
   };
 
   const handleCopyRow = (row: GeneratedIdData) => {
-    const textToCopy = `${row.localName}\t${row.remoteId}`;
+    const textToCopy = [row.localName, row.id || '', row.remoteId].join('\t');
     navigator.clipboard.writeText(textToCopy)
       .then(() => toast({ title: 'Copiado', description: 'Fila copiada al portapapeles.' }))
       .catch(() => toast({ variant: 'destructive', title: 'Error', description: 'No se pudo copiar. Usa HTTPS o prueba en otro navegador.' }));
@@ -101,9 +104,13 @@ export function RemoteIdGenerator() {
 
   const handleCopyTable = () => {
     if (generatedData.length === 0) return;
-    const header = ["NOMBRE DEL LOCAL", "REMOTE ID DATOS"];
+    const hasIds = generatedData.some(row => row.id);
+    const header = ["NOMBRE DEL LOCAL"];
+    if (hasIds) header.push("ID");
+    header.push("REMOTE ID");
+
     const tableContent = generatedData.map(row => 
-        [row.localName, row.remoteId].join('\t')
+        [row.localName, hasIds ? row.id || '' : null, row.remoteId].filter(item => item !== null).join('\t')
     ).join('\n');
     const contentToCopy = [header.join('\t'), tableContent].join('\n');
 
@@ -118,18 +125,19 @@ export function RemoteIdGenerator() {
 
   const handleClear = () => {
     setCountry('');
-    setNamesInput('');
-    setIdsInput('');
+    setInputData('');
     setGeneratedData([]);
     setIsCopied(false);
   };
+  
+  const hasIds = generatedData.some(row => row.id);
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Generador de Remote ID</CardTitle>
         <CardDescription>
-          Completa los campos para generar los Remote IDs estandarizados para uno o más locales.
+          Pega tu lista de locales, con o sin IDs. El sistema los separará automáticamente.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -147,27 +155,15 @@ export function RemoteIdGenerator() {
             </Select>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="grid w-full gap-2">
-                <Label htmlFor="names-textarea">Nombres de Locales (uno por línea)</Label>
-                <Textarea
-                    id="names-textarea"
-                    placeholder="Mi Restaurante Genial&#10;La Pizzería de Juan"
-                    value={namesInput}
-                    onChange={(e) => setNamesInput(e.target.value)}
-                    rows={8}
-                />
-            </div>
-            <div className="grid w-full gap-2">
-                <Label htmlFor="ids-textarea">IDs  (este campo es opcional uno por linea)</Label>
-                <Textarea
-                    id="ids-textarea"
-                    placeholder="12345&#10;67890"
-                    value={idsInput}
-                    onChange={(e) => setIdsInput(e.target.value)}
-                    rows={8}
-                />
-            </div>
+        <div className="grid w-full gap-2">
+            <Label htmlFor="data-textarea">Nombres de Locales y IDs (uno por línea)</Label>
+            <Textarea
+                id="data-textarea"
+                placeholder="Mi Restaurante Genial\nLa Pizzería de Juan 67890\n12345 El Otro Local"
+                value={inputData}
+                onChange={(e) => setInputData(e.target.value)}
+                rows={8}
+            />
         </div>
 
         <div className="flex flex-col sm:flex-row gap-2">
@@ -178,7 +174,7 @@ export function RemoteIdGenerator() {
            {generatedData.length > 0 && (
             <Button onClick={handleClear} variant="outline" className="w-full sm:w-auto">
               <Trash2 className="mr-2 h-4 w-4" />
-              Limpiar y Empezar de Nuevo
+              Limpiar y empezar de nuevo
             </Button>
            )}
         </div>
@@ -198,25 +194,18 @@ export function RemoteIdGenerator() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>NOMBRE DEL LOCAL</TableHead>
-                    <TableHead>REMOTE ID DATOS</TableHead>
-                    <TableHead>ACCIONES</TableHead>
+                    {hasIds && <TableHead>ID</TableHead>}
+                    <TableHead>REMOTE ID</TableHead>
+                    <TableHead></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {generatedData.map((row, index) => (
                     <TableRow key={index}>
                       <TableCell className="font-medium">
-                        <input
-                          type="text"
-                          value={row.localName}
-                          onChange={(e) => {
-                            const newData = [...generatedData];
-                            newData[index].localName = e.target.value;
-                            setGeneratedData(newData);
-                          }}
-                          className="w-full border rounded px-1 py-0.5 text-sm"
-                        />
+                        {row.localName}
                       </TableCell>
+                       {hasIds && <TableCell>{row.id}</TableCell>}
                       <TableCell>{row.remoteId}</TableCell>
                       <TableCell>
                         <Button
