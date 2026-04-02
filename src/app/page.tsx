@@ -70,7 +70,7 @@ export default function Home() {
               </CardHeader>
             </Card>
           </a>
-          <a href="https://script.google.com/a/macros/pedidosya.com/s/AKfycbyHpFIGYTL6AFEJy4ckByZzCexJmhvyv7CXpr6rLEt3BcXTZ7xhejSuQqGqZk2D_bAB-A/exec" target="_blank" rel="noopener noreferrer">
+          <a href="https://script.google.com/a/macros/pedidosya.com/s/AKfycbzaiV2u_CgH5JctP6q8sNQz-SLhzKroTH_bPUrx1fwp-w6mnfX0p5k9oEVv9cZG_WDVfA/exec" target="_blank" rel="noopener noreferrer">
             <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                 <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">

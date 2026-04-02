@@ -161,7 +161,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 asChild
                 tooltip="Simulador Portal"
               >
-                <a href="https://script.google.com/a/macros/pedidosya.com/s/AKfycbyHpFIGYTL6AFEJy4ckByZzCexJmhvyv7CXpr6rLEt3BcXTZ7xhejSuQqGqZk2D_bAB-A/exec" target="_blank" rel="noopener noreferrer">
+                <a href="https://script.google.com/a/macros/pedidosya.com/s/AKfycbzaiV2u_CgH5JctP6q8sNQz-SLhzKroTH_bPUrx1fwp-w6mnfX0p5k9oEVv9cZG_WDVfA/exec" target="_blank" rel="noopener noreferrer">
                   <Settings />
                   <span>Onboarding PedidosYa</span>
                 </a>
