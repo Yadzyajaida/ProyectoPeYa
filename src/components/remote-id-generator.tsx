@@ -48,8 +48,9 @@ export function RemoteIdGenerator() {
   const [country, setCountry] = useState('');
   const [inputData, setInputData] = useState('');
   const [generatedData, setGeneratedData] = useState<GeneratedIdData[]>([]);
-  const [isCopied, setIsCopied] = useState(false);
-  
+  const [isTableCopied, setIsTableCopied] = useState(false);
+  const [isTextCopied, setIsTextCopied] = useState(false);
+
   const normalizeText = (text: string) => {
     return text
       .normalize("NFD")
@@ -69,29 +70,44 @@ export function RemoteIdGenerator() {
       return;
     }
 
-    const lines = inputData.split('\n').filter(line => line.trim().length > 0);
+    const blocks = inputData.trim().split(/\\n\\s*\\n/);
 
-    const remoteIdsData = lines.map(line => {
-      const match = line.match(/^(\d+)|(\d+)$/);
-      let id, localName;
+    const remoteIdsData = blocks.flatMap(block => {
+        const lines = block.split('\\n').map(l => l.trim()).filter(Boolean);
+        if (lines.length === 0) return [];
 
-      if (match) {
-        id = match[0];
-        localName = line.replace(id, '').trim();
-      } else {
-        localName = line.trim();
-      }
+        let localName, id;
 
-      const normalizedName = normalizeText(localName);
-      const remoteId = `${country}-${normalizedName}-0001`.toUpperCase();
+        if (lines.length === 1) {
+            const line = lines[0];
+            const match = line.match(/^(?:(\\d+)\\s*(.*)|(.*)\\s*(\\d+))$/);
+             if (match) {
+                id = match[1] || match[4];
+                localName = (match[2] || match[3] || '').trim();
+            } else {
+                localName = line.trim();
+            }
+        } else {
+            lines.forEach(line => {
+                const nameMatch = line.match(/^Nombre del local:\\s*(.*)/i);
+                const idMatch = line.match(/^Id:\\s*(.*)/i);
+                if (nameMatch) localName = nameMatch[1].trim();
+                if (idMatch) id = idMatch[1].trim();
+            });
+        }
 
-      return { localName, remoteId, id };
+        if (!localName) return [];
+
+        const normalizedName = normalizeText(localName);
+        const remoteId = `${country}-${normalizedName}-0001`.toUpperCase();
+
+        return [{ localName, remoteId, id }];
     });
     
     setGeneratedData(remoteIdsData);
     toast({
       title: "Éxito",
-      description: `Se generaron ${remoteIdsData.length} Remote IDs.`,
+      description: `Se generaron ${remoteIdsData.length} Remote IDs.`
     });
   };
 
@@ -99,9 +115,30 @@ export function RemoteIdGenerator() {
     const textToCopy = [row.localName, row.id || '', row.remoteId].join('\t');
     navigator.clipboard.writeText(textToCopy)
       .then(() => toast({ title: 'Copiado', description: 'Fila copiada al portapapeles.' }))
-      .catch(() => toast({ variant: 'destructive', title: 'Error', description: 'No se pudo copiar. Usa HTTPS o prueba en otro navegador.' }));
+      .catch(() => toast({ variant: 'destructive', title: 'Error', description: 'No se pudo copiar.' }));
   };
 
+  const handleCopyAsText = () => {
+    if (generatedData.length === 0) return;
+
+    const textToCopy = generatedData.map(row => {
+      let entry = `Nombre del local: ${row.localName}`;
+      if (row.id) {
+        entry += `\\nId: ${row.id}`;
+      }
+      entry += `\\nRemote Id: ${row.remoteId}`;
+      return entry;
+    }).join('\\n\\n');
+
+    navigator.clipboard.writeText(textToCopy)
+      .then(() => {
+        setIsTextCopied(true);
+        toast({ title: "Copiado", description: "Datos copiados como texto." });
+        setTimeout(() => setIsTextCopied(false), 3000);
+      })
+      .catch(() => toast({ variant: 'destructive', title: 'Error', description: 'No se pudo copiar.' }));
+  };
+  
   const handleCopyTable = () => {
     if (generatedData.length === 0) return;
     const hasIds = generatedData.some(row => row.id);
@@ -111,23 +148,24 @@ export function RemoteIdGenerator() {
 
     const tableContent = generatedData.map(row => 
         [row.localName, hasIds ? row.id || '' : null, row.remoteId].filter(item => item !== null).join('\t')
-    ).join('\n');
-    const contentToCopy = [header.join('\t'), tableContent].join('\n');
+    ).join('\\n');
+    const contentToCopy = [header.join('\t'), tableContent].join('\\n');
 
     navigator.clipboard.writeText(contentToCopy)
       .then(() => {
-        setIsCopied(true);
-        toast({ title: "Copiado", description: "Tabla copiada al portapapeles. Puedes pegarla en una hoja de cálculo." });
-        setTimeout(() => setIsCopied(false), 3000);
+        setIsTableCopied(true);
+        toast({ title: "Copiado", description: "Tabla copiada para hoja de cálculo." });
+        setTimeout(() => setIsTableCopied(false), 3000);
       })
-      .catch(() => toast({ variant: 'destructive', title: 'Error', description: 'No se pudo copiar. Usa HTTPS o prueba en otro navegador.' }));
+      .catch(() => toast({ variant: 'destructive', title: 'Error', description: 'No se pudo copiar.' }));
   };
 
   const handleClear = () => {
     setCountry('');
     setInputData('');
     setGeneratedData([]);
-    setIsCopied(false);
+    setIsTableCopied(false);
+    setIsTextCopied(false);
   };
   
   const hasIds = generatedData.some(row => row.id);
@@ -159,7 +197,7 @@ export function RemoteIdGenerator() {
             <Label htmlFor="data-textarea">Nombres de Locales y IDs (uno por línea)</Label>
             <Textarea
                 id="data-textarea"
-                placeholder={"Mi Restaurante Genial\nLa Pizzería de Juan 67890\n67890 El Otro Local"}
+                placeholder={'Mi Restaurante Genial\\nLa Pizzería de Juan 67890\\n\\nNombre del local: El Otro Local\\nId: 12345'}
                 value={inputData}
                 onChange={(e) => setInputData(e.target.value)}
                 rows={8}
@@ -185,7 +223,7 @@ export function RemoteIdGenerator() {
               <Info className="h-4 w-4" />
               <AlertTitle>Se generaron {generatedData.length} Remote IDs</AlertTitle>
               <AlertDescription>
-                Revisa la tabla con los resultados. Puedes copiarla para pegarla en una hoja de cálculo.
+                Revisa la tabla con los resultados. Puedes copiar los datos en el formato que prefieras.
               </AlertDescription>
             </Alert>
             
@@ -196,7 +234,7 @@ export function RemoteIdGenerator() {
                     <TableHead>NOMBRE DEL LOCAL</TableHead>
                     {hasIds && <TableHead>ID</TableHead>}
                     <TableHead>REMOTE ID</TableHead>
-                    <TableHead></TableHead>
+                    <TableHead className="text-right">Copiar Fila</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -207,7 +245,7 @@ export function RemoteIdGenerator() {
                       </TableCell>
                        {hasIds && <TableCell>{row.id}</TableCell>}
                       <TableCell>{row.remoteId}</TableCell>
-                      <TableCell>
+                      <TableCell className="text-right">
                         <Button
                           variant="ghost"
                           size="sm"
@@ -217,7 +255,7 @@ export function RemoteIdGenerator() {
                         </Button>
                       </TableCell>
                     </TableRow>
-                  ))}
+                  ))}\
                 </TableBody>
               </Table>
             </div>
@@ -227,9 +265,13 @@ export function RemoteIdGenerator() {
 
       {generatedData.length > 0 && (
         <CardFooter className="flex flex-col sm:flex-row justify-end gap-2">
+            <Button onClick={handleCopyAsText} variant="secondary">
+                {isTextCopied ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
+                {isTextCopied ? 'Copiado' : 'Copiar como Texto'}
+            </Button>
             <Button onClick={handleCopyTable} variant="secondary">
-                {isCopied ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
-                {isCopied ? 'Copiado' : 'Copiar Tabla para Hoja de Cálculo'}
+                {isTableCopied ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
+                {isTableCopied ? 'Copiado' : 'Copiar para hoja de cálculo'}
             </Button>
         </CardFooter>
       )}
