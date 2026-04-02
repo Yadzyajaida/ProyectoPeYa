@@ -159,7 +159,7 @@ export function RemoteIdGenerator() {
             <Label htmlFor="data-textarea">Nombres de Locales y IDs (uno por línea)</Label>
             <Textarea
                 id="data-textarea"
-                placeholder="Mi Restaurante Genial\nLa Pizzería de Juan 67890\n12345 El Otro Local"
+                placeholder={"Mi Restaurante Genial\nLa Pizzería de Juan 67890\n67890 El Otro Local"}
                 value={inputData}
                 onChange={(e) => setInputData(e.target.value)}
                 rows={8}
