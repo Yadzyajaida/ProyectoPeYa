@@ -70,39 +70,31 @@ export function RemoteIdGenerator() {
       return;
     }
 
-    const blocks = inputData.trim().split(/\\n\\s*\\n/);
+    const lines = inputData.trim().split('\n');
 
-    const remoteIdsData = blocks.flatMap(block => {
-        const lines = block.split('\\n').map(l => l.trim()).filter(Boolean);
-        if (lines.length === 0) return [];
+    const remoteIdsData = lines.map(line => {
+        line = line.trim();
+        if (!line) return null;
 
-        let localName, id;
+        let localName = line;
+        let id;
+        const parts = line.split(/\s+/);
 
-        if (lines.length === 1) {
-            const line = lines[0];
-            const match = line.match(/^(?:(\\d+)\\s*(.*)|(.*)\\s*(\\d+))$/);
-             if (match) {
-                id = match[1] || match[4];
-                localName = (match[2] || match[3] || '').trim();
-            } else {
-                localName = line.trim();
-            }
-        } else {
-            lines.forEach(line => {
-                const nameMatch = line.match(/^Nombre del local:\\s*(.*)/i);
-                const idMatch = line.match(/^Id:\\s*(.*)/i);
-                if (nameMatch) localName = nameMatch[1].trim();
-                if (idMatch) id = idMatch[1].trim();
-            });
+        if (parts.length > 1 && /^\d+$/.test(parts[parts.length - 1])) {
+            id = parts.pop();
+            localName = parts.join(' ');
+        } else if (parts.length > 1 && /^\d+$/.test(parts[0])) {
+            id = parts.shift();
+            localName = parts.join(' ');
         }
 
-        if (!localName) return [];
+        if (!localName) return null;
 
         const normalizedName = normalizeText(localName);
         const remoteId = `${country}-${normalizedName}-0001`.toUpperCase();
 
-        return [{ localName, remoteId, id }];
-    });
+        return { localName, remoteId, id };
+    }).filter(Boolean) as GeneratedIdData[];
     
     setGeneratedData(remoteIdsData);
     toast({
@@ -112,9 +104,14 @@ export function RemoteIdGenerator() {
   };
 
   const handleCopyRow = (row: GeneratedIdData) => {
-    const textToCopy = [row.localName, row.id || '', row.remoteId].join('\t');
-    navigator.clipboard.writeText(textToCopy)
-      .then(() => toast({ title: 'Copiado', description: 'Fila copiada al portapapeles.' }))
+    let entry = `Nombre del local: ${row.localName}`;
+    if (row.id) {
+      entry += `\nId: ${row.id}`;
+    }
+    entry += `\nRemote Id: ${row.remoteId}`;
+
+    navigator.clipboard.writeText(entry)
+      .then(() => toast({ title: 'Copiado', description: 'Datos del local copiados.' }))
       .catch(() => toast({ variant: 'destructive', title: 'Error', description: 'No se pudo copiar.' }));
   };
 
@@ -124,11 +121,11 @@ export function RemoteIdGenerator() {
     const textToCopy = generatedData.map(row => {
       let entry = `Nombre del local: ${row.localName}`;
       if (row.id) {
-        entry += `\\nId: ${row.id}`;
+        entry += `\nId: ${row.id}`;
       }
-      entry += `\\nRemote Id: ${row.remoteId}`;
+      entry += `\nRemote Id: ${row.remoteId}`;
       return entry;
-    }).join('\\n\\n');
+    }).join('\n\n');
 
     navigator.clipboard.writeText(textToCopy)
       .then(() => {
@@ -148,8 +145,8 @@ export function RemoteIdGenerator() {
 
     const tableContent = generatedData.map(row => 
         [row.localName, hasIds ? row.id || '' : null, row.remoteId].filter(item => item !== null).join('\t')
-    ).join('\\n');
-    const contentToCopy = [header.join('\t'), tableContent].join('\\n');
+    ).join('\n');
+    const contentToCopy = [header.join('\t'), tableContent].join('\n');
 
     navigator.clipboard.writeText(contentToCopy)
       .then(() => {
@@ -175,7 +172,7 @@ export function RemoteIdGenerator() {
       <CardHeader>
         <CardTitle>Generador de Remote ID</CardTitle>
         <CardDescription>
-          Pega tu lista de locales, con o sin IDs. El sistema los separará automáticamente.
+          Pega tu lista de locales (un local por línea). El sistema detectará automáticamente los IDs.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -197,7 +194,7 @@ export function RemoteIdGenerator() {
             <Label htmlFor="data-textarea">Nombres de Locales y IDs (uno por línea)</Label>
             <Textarea
                 id="data-textarea"
-                placeholder={'Mi Restaurante Genial\\nLa Pizzería de Juan 67890\\n\\nNombre del local: El Otro Local\\nId: 12345'}
+                placeholder={'Mi Restaurante Genial\nLa Pizzería de Juan 67890\n12345 El Otro Local'}
                 value={inputData}
                 onChange={(e) => setInputData(e.target.value)}
                 rows={8}
@@ -255,7 +252,7 @@ export function RemoteIdGenerator() {
                         </Button>
                       </TableCell>
                     </TableRow>
-                  ))}\
+                  ))}
                 </TableBody>
               </Table>
             </div>
@@ -271,7 +268,7 @@ export function RemoteIdGenerator() {
             </Button>
             <Button onClick={handleCopyTable} variant="secondary">
                 {isTableCopied ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
-                {isTableCopied ? 'Copiado' : 'Copiar para hoja de cálculo'}
+                {isTableCopied ? 'Copiado' : 'Copiar para Hoja de Cálculo'}
             </Button>
         </CardFooter>
       )}
