@@ -18,7 +18,7 @@ import {
   SidebarMenuSubButton,
 } from '@/components/ui/sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Play, FileCode, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint } from 'lucide-react';
+import { Play, FileCode, MessageCircle, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
@@ -148,6 +148,18 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <SidebarMenuItem>
               <SidebarMenuButton
                 asChild
+                isActive={pathname === '/remote-id-generator'}
+                tooltip="Remote ID Gen"
+              >
+                <Link href="/remote-id-generator">
+                  <FileCode />
+                  <span>Remote ID</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
                 tooltip="Simulador Portal"
               >
                 <a href="https://ppsimulatorcnx.netlify.app/" target="_blank" rel="noopener noreferrer">
@@ -159,27 +171,26 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <SidebarMenuItem>
               <SidebarMenuButton
                 asChild
-                tooltip="Simulador Portal"
+                tooltip="Simulador Chat"
               >
-                <a href="https://script.google.com/a/macros/pedidosya.com/s/AKfycbzaiV2u_CgH5JctP6q8sNQz-SLhzKroTH_bPUrx1fwp-w6mnfX0p5k9oEVv9cZG_WDVfA/exec" target="_blank" rel="noopener noreferrer">
-                  <Settings />
-                  <span>Onboarding PedidosYa</span>
+                <a href="https://simuladorcnx.netlify.app/" target="_blank" rel="noopener noreferrer">
+                  <MessageCircle />
+                  <span>Simulador de chat</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton
                 asChild
-                isActive={pathname === '/remote-id-generator'}
-                tooltip="Remote ID Gen"
+                tooltip="Onboarding integraciones"
               >
-                <Link href="/remote-id-generator">
-                  <FileCode />
-                  <span>Remote ID</span>
-                </Link>
+                <a href="https://script.google.com/a/macros/pedidosya.com/s/AKfycbzaiV2u_CgH5JctP6q8sNQz-SLhzKroTH_bPUrx1fwp-w6mnfX0p5k9oEVv9cZG_WDVfA/exec" target="_blank" rel="noopener noreferrer">
+                  <Settings />
+                  <span>Onboarding de integraciones</span>
+                </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
-            <SidebarMenuItem>
+            {/*<SidebarMenuItem>
               <SidebarMenuButton
                 asChild
                 isActive={pathname === '/enlaces-google'}
@@ -237,7 +248,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                   </a>
                 </SidebarMenuSubButton>
               </SidebarMenuSub>
-            </SidebarMenuItem>
+            </SidebarMenuItem>*/}
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>

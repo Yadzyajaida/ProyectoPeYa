@@ -57,28 +57,15 @@ export default function Home() {
               </CardHeader>
             </Card>
           </Link>
-          <a href="https://ppsimulatorcnx.netlify.app/" target="_blank" rel="noopener noreferrer">
-            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
-              <CardHeader className="flex flex-col items-center justify-center text-center p-6">
-                <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
-                  <Play className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
-                </div>
-                <CardTitle className="text-xl">Simulador partner portal</CardTitle>
-                <CardDescription className="mt-2">
-                  Simulador del portal partner para verificar rutas o tener una guia visual de las mismas.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </a>
           <a href="https://script.google.com/a/macros/pedidosya.com/s/AKfycbzaiV2u_CgH5JctP6q8sNQz-SLhzKroTH_bPUrx1fwp-w6mnfX0p5k9oEVv9cZG_WDVfA/exec" target="_blank" rel="noopener noreferrer">
             <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                 <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
                   <Settings className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
                 </div>
-                <CardTitle className="text-xl">Onboarding PedidosYa</CardTitle>
+                <CardTitle className="text-xl">Onboarding de integraciones</CardTitle>
                 <CardDescription className="mt-2">
-                  Consulta si un local se encuentra en proceso de onboarding y todo el detalle del mismo.
+                  Consulta si un local se encuentra en proceso de onboarding de integración y todo el detalle del mismo.
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -96,7 +83,33 @@ export default function Home() {
               </CardHeader>
             </Card>
           </Link>
-          <Link href="/enlaces-google">
+          <a href="https://ppsimulatorcnx.netlify.app/" target="_blank" rel="noopener noreferrer">
+            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
+              <CardHeader className="flex flex-col items-center justify-center text-center p-6">
+                <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
+                  <Play className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
+                </div>
+                <CardTitle className="text-xl">Simulador partner portal</CardTitle>
+                <CardDescription className="mt-2">
+                  Simulador del portal partner para verificar rutas o tener una guia visual de las mismas.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </a>
+          <a href="https://simuladorcnx.netlify.app/" target="_blank" rel="noopener noreferrer">
+            <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
+              <CardHeader className="flex flex-col items-center justify-center text-center p-6">
+                <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
+                  <Play className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
+                </div>
+                <CardTitle className="text-xl">Simulador de chat</CardTitle>
+                <CardDescription className="mt-2">
+                  Simulador de chat para orientar a IS (agente - moderador).
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </a>
+          {/* <Link href="/enlaces-google">
             <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
               <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                 <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
@@ -108,7 +121,7 @@ export default function Home() {
                 </CardDescription>
               </CardHeader>
             </Card>
-          </Link>
+          </Link> */}
         </div>
       </main>
     </DashboardLayout>
