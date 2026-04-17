@@ -148,6 +148,17 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <SidebarMenuItem>
               <SidebarMenuButton
                 asChild
+                tooltip="Onboarding integraciones"
+              >
+                <a href="https://script.google.com/a/macros/pedidosya.com/s/AKfycbzaiV2u_CgH5JctP6q8sNQz-SLhzKroTH_bPUrx1fwp-w6mnfX0p5k9oEVv9cZG_WDVfA/exec" target="_blank" rel="noopener noreferrer">
+                  <Settings />
+                  <span>Onboarding de integraciones</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
                 isActive={pathname === '/remote-id-generator'}
                 tooltip="Remote ID Gen"
               >
@@ -157,7 +168,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
-            <SidebarMenuItem>
+            {/* <SidebarMenuItem>
               <SidebarMenuButton
                 asChild
                 tooltip="Simulador Portal"
@@ -179,18 +190,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
+            
             <SidebarMenuItem>
-              <SidebarMenuButton
-                asChild
-                tooltip="Onboarding integraciones"
-              >
-                <a href="https://script.google.com/a/macros/pedidosya.com/s/AKfycbzaiV2u_CgH5JctP6q8sNQz-SLhzKroTH_bPUrx1fwp-w6mnfX0p5k9oEVv9cZG_WDVfA/exec" target="_blank" rel="noopener noreferrer">
-                  <Settings />
-                  <span>Onboarding de integraciones</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            {/*<SidebarMenuItem>
               <SidebarMenuButton
                 asChild
                 isActive={pathname === '/enlaces-google'}
@@ -248,7 +249,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                   </a>
                 </SidebarMenuSubButton>
               </SidebarMenuSub>
-            </SidebarMenuItem>*/}
+            </SidebarMenuItem> */}
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter>
