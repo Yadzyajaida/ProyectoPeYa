@@ -8,6 +8,12 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
+
+  session: {
+    strategy: "jwt",
+    maxAge: 1 * 24 * 60 * 60, // 1 día (en segundos)
+  },
+  
   callbacks: {
     async signIn({ user }) {
       if (user.email?.endsWith("@pedidosya.com")) {
