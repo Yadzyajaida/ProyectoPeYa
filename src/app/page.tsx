@@ -2,7 +2,7 @@
 
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { MessageCircle, Play, Settings, FileCode, Type, FileText, FileSpreadsheet, FileCog, Link as LinkIcon, FileWarning, Fingerprint } from 'lucide-react';
+import { MessageCircle, Play, Settings, FileCode, Type, FileText, FileSpreadsheet, FileCog, Link as LinkIcon, FileWarning, Fingerprint, GitCompare } from 'lucide-react';
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from 'next/link';
 
@@ -112,6 +112,19 @@ export default function Home() {
                   <CardTitle className="text-xl">Generador de remote ID</CardTitle>
                   <CardDescription className="mt-2">
                     Crea un remote ID estandarizado según el nombre del local.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </Link>
+            <Link href="/comparar-excel">
+              <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
+                <CardHeader className="flex flex-col items-center justify-center text-center p-6">
+                  <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
+                    <GitCompare className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
+                  </div>
+                  <CardTitle className="text-xl">Comparar archivos</CardTitle>
+                  <CardDescription className="mt-2">
+                    Sube tus archivos para comparar los valores de las columnas y filas ingresadas.
                   </CardDescription>
                 </CardHeader>
               </Card>

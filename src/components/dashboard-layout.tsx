@@ -18,7 +18,7 @@ import {
   SidebarMenuSubButton,
 } from '@/components/ui/sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Play, FileCode, MessageCircle, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint } from 'lucide-react';
+import { Play, FileCode, MessageCircle, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint, GitCompare } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
@@ -165,6 +165,18 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <Link href="/remote-id-generator">
                   <FileCode />
                   <span>Remote ID</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === '/comparar-excel'}
+                tooltip="Comparar"
+              >
+                <Link href="/comparar-excel">
+                  <GitCompare />
+                  <span>Comparar archivos</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
