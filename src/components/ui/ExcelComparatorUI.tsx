@@ -8,7 +8,7 @@ export default function ExcelComparatorUI() {
         fileType="productos"
         idColumn="ID"
         file1Label="Archivo de productos antiguo"
-        file2Label="Archivo de Productos Nuevo"
+        file2Label="Archivo de productos nuevo"
         description="Sube el archivo antiguo y el nuevo de productos. El nombre de ambos archivos debe contener la palabra 'productos'."
       />
       <FileComparator
