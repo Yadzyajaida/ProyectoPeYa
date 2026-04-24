@@ -20,7 +20,7 @@ export default function Home() {
       <div className="flex flex-col h-screen items-center justify-center bg-gray-50 px-4">
         <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-md text-center border border-gray-100">
           <h2 className="text-2xl font-bold text-gray-800">Peya Tools</h2>
-          <p className="text-gray-600 mb-8">Inicia sesión con tu cuenta corporativa para continuar.</p>
+          <p className="text-gray-600 mb-8">Inicia sesión con tu cuenta de pedidosYa para continuar.</p>
           
           <button
             onClick={() => signIn('google')}
