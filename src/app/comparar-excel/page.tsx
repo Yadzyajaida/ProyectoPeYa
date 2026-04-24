@@ -18,7 +18,7 @@ export default function CompararExcel() {
         <header className="py-8 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto justify-items-center">
             <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl font-headline">
-              Comparar Archivos
+              Comparar archivos
             </h1>
             <p className="mt-4 max-w-6xl text-lg text-muted-foreground">
               Sube tus archivos para comparar los valores de las columnas y filas ingresadas.
