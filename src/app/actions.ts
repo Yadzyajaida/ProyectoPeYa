@@ -35,8 +35,6 @@ function getNextPrefix(count: number): string {
     if (count < alphabet.length) {
         return alphabet[count];
     }
-    // After exhausting the alphabet, start using numbers as prefixes.
-    // The count is 0-indexed, so 'z' is 25. The 27th duplicate (index 26) will be the first with a number.
     return String(count - alphabet.length + 1);
 }
 
@@ -64,7 +62,6 @@ function processProductos(data: any[][]): { processedData: any[][]; log: string[
 
     const log: string[] = [];
     const idToSkuMap: {[key: string]: string} = {};
-
 
     const originalRequiredHeaders = [
         'ID', 'Sección', 'SKU Sección', 'SKU Name Sección', 'Nombre', 
@@ -135,14 +132,12 @@ function processProductos(data: any[][]): { processedData: any[][]; log: string[
         }
     });
 
-    // Remove the ID column for the final CSV
     const finalData = orderedContent.map(row => {
         const newRow = [...row];
         newRow.splice(idIndex, 1); 
         return newRow;
     });
     
-    // The final data should not include headers for the CSV
     return { processedData: finalData, log, idToSkuMap };
 }
 
@@ -160,7 +155,7 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
     const idProductoIndex = header.indexOf('ID Producto');
     const skuProductoIndex = header.indexOf('SKU Producto');
  
-    if (idProductoIndex !== -1 && skuProductoIndex !== -1) {
+    if (Object.keys(idToSkuMap).length > 0 && idProductoIndex !== -1 && skuProductoIndex !== -1) {
       content.forEach((row) => {
           const skuProducto = String(row[skuProductoIndex]).trim();
           if (idToSkuMap[skuProducto] && !loggedProductIds.has(skuProducto)) {
@@ -183,7 +178,7 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
     }
 
     const filteredContent = content
-        .map((row, index) => row ? [...row, index + 2] : null) // Append original row number
+        .map((row, index) => row ? [...row, index + 2] : null)
         .filter(row => row && row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== ''));
 
     const originalRowIndex = header.length;
@@ -220,20 +215,23 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
     });
 
     const skuOpcionalIndex = header.indexOf('SKU');
-    if (skuOpcionalIndex !== -1 && idProductoIndex !== -1) {
+    if (skuOpcionalIndex !== -1 && idProductoIndex !== -1 && skuProductoIndex !== -1) {
 
-        const groupedByProduct: { [key: string]: any[][] } = {};
+        const groupedByProductAndName: { [key: string]: any[][] } = {};
         filteredContent.forEach(row => {
             if (!row) return;
             const productId = String(row[idProductoIndex]).trim();
-            if (!groupedByProduct[productId]) {
-                groupedByProduct[productId] = [];
+            const productName = String(row[skuProductoIndex]).trim(); // Usamos SKU Producto como Nombre Producto
+            const compositeKey = `${productId}-${productName}`;
+
+            if (!groupedByProductAndName[compositeKey]) {
+                groupedByProductAndName[compositeKey] = [];
             }
-            groupedByProduct[productId].push(row);
+            groupedByProductAndName[compositeKey].push(row);
         });
 
-        for (const productId in groupedByProduct) {
-            const productRows = groupedByProduct[productId];
+        for (const compositeKey in groupedByProductAndName) {
+            const productRows = groupedByProductAndName[compositeKey];
 
             const groupedByOptionGroup: { [key: string]: any[][] } = {};
             productRows.forEach(row => {
@@ -260,25 +258,22 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
                         log.push(`- Fila ${excelRow}: SKU de opción vacío rellenado con '${newSku}'.`);
                         emptySkuCount++;
                     } else {
-                        if (productId !== '') {
-                            const originalSku = String(rawSku).trim();
-                            if (skuCounts[originalSku]) {
-                                const count = skuCounts[originalSku];
-                                const prefix = getNextPrefix(count - 1);
-                                const newSku = `${prefix}${originalSku}`;
-                                log.push(`- Fila ${excelRow}: SKU de opción duplicado '${originalSku}' dentro del grupo '${groupName}' renombrado a '${newSku}'.`);
-                                row[skuOpcionalIndex] = newSku;
-                                skuCounts[originalSku]++;
-                            } else {
-                                skuCounts[originalSku] = 1;
-                            }
+                        const originalSku = String(rawSku).trim();
+                        if (skuCounts[originalSku]) {
+                            const count = skuCounts[originalSku];
+                            const prefix = getNextPrefix(count - 1);
+                            const newSku = `${prefix}${originalSku}`;
+                            log.push(`- Fila ${excelRow}: SKU de opción duplicado '${originalSku}' dentro del producto '${compositeKey}' y grupo '${groupName}' renombrado a '${newSku}'.`);
+                            row[skuOpcionalIndex] = newSku;
+                            skuCounts[originalSku]++;
+                        } else {
+                            skuCounts[originalSku] = 1;
                         }
                     }
                 });
             }
         }
     }
-
 
     const requiredHeaders = [
         'SKU Producto', 'Grupo de opciones', 'SKU Grupo de opciones', 
@@ -300,9 +295,9 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
             const num = parseFloat(val);
             return isNaN(num) || num < 0 ? 0 : num;
         };
-        row[4] = parseNumeric(row[4]); // Cantidad mínima
-        row[5] = parseNumeric(row[5]); // Cantidad máxima
-        row[7] = parseNumeric(row[7]); // Precio
+        row[4] = parseNumeric(row[4]);
+        row[5] = parseNumeric(row[5]);
+        row[7] = parseNumeric(row[7]);
     });
 
     return { processedData: processed, log };
@@ -312,80 +307,84 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
 export async function processFiles(formData: FormData): Promise<MultiProcessResult> {
   const productosFile = formData.get('productos') as File | null;
   const opcionalesFile = formData.get('opcionales') as File | null;
+
+  if (!productosFile && !opcionalesFile) {
+    return [{ error: 'Debes subir al menos un archivo.' }];
+  }
+
   let results: MultiProcessResult = [];
   let productosLog: string[] = [];
   let opcionalesLog: string[] = [];
-
-  if (!productosFile) {
-    return [{ error: 'El archivo de Productos es obligatorio.' }];
-  }
-
+  let idToSkuMap: { [key: string]: string } = {};
 
   try {
-    // Process Productos
-    const productosBuffer = await productosFile.arrayBuffer();
-    const productosWorkbook = xlsx.read(productosBuffer, { type: 'buffer' });
-    const productosSheetName = productosWorkbook.SheetNames[0];
-    if (!productosSheetName) {
-        return [{ error: 'El archivo de productos no contiene hojas.' }];
-    }
-    const productosWorksheet = productosWorkbook.Sheets[productosSheetName];
-    const productosData: any[][] = xlsx.utils.sheet_to_json(productosWorksheet, { header: 1, defval: '' });
+    if (productosFile) {
+      const productosBuffer = await productosFile.arrayBuffer();
+      const productosWorkbook = xlsx.read(productosBuffer, { type: 'buffer' });
+      const productosSheetName = productosWorkbook.SheetNames[0];
+      
+      if (!productosSheetName) {
+        productosLog.push('El archivo de productos no contiene hojas.');
+      } else {
+        const productosWorksheet = productosWorkbook.Sheets[productosSheetName];
+        const productosData: any[][] = xlsx.utils.sheet_to_json(productosWorksheet, { header: 1, defval: '' });
 
-    if (productosData.length <= 1) {
-        return [{ error: 'El archivo de productos está vacío o solo contiene encabezados.' }];
-    }
-    
-    const { processedData: processedProductos, log, idToSkuMap } = processProductos(productosData);
-    productosLog.push(...log);
-
-    if (processedProductos.length > 0) {
-        const csvString = arrayToCSV(processedProductos, ';');
-        results.push({
-            data: csvString,
-            fileName: 'productos_procesado.csv',
-        });
-    } else {
-         return [{ error: 'No se procesaron datos de productos. Verifica los encabezados o el contenido del archivo.', productosLog }];
-    }
-
-
-    // Process Opcionales only if the file is provided
-    if (opcionalesFile) {
-        const opcionalesBuffer = await opcionalesFile.arrayBuffer();
-        const opcionalesWorkbook = xlsx.read(opcionalesBuffer, { type: 'buffer' });
-        const opcionalesSheetName = opcionalesWorkbook.SheetNames[0];
-        if (!opcionalesSheetName) {
-            results.push({ error: 'El archivo de opcionales no contiene hojas.', fileName: 'opcionales_procesado.csv' });
+        if (productosData.length <= 1) {
+          productosLog.push('El archivo de productos está vacío o solo contiene encabezados.');
         } else {
-            const opcionalesWorksheet = opcionalesWorkbook.Sheets[opcionalesSheetName];
-            const opcionalesData: any[][] = xlsx.utils.sheet_to_json(opcionalesWorksheet, { header: 1, defval: '' });
-            
-            if (opcionalesData.length > 1) {
-                const { processedData: processedOpcionales, log: opcionalesProcessingLog } = processOpcionales(opcionalesData, idToSkuMap);
-                opcionalesLog.push(...opcionalesProcessingLog);
+          const { processedData: processedProductos, log, idToSkuMap: newIdToSkuMap } = processProductos(productosData);
+          productosLog.push(...log);
+          idToSkuMap = newIdToSkuMap;
 
-                if (processedOpcionales.length > 0) {
-                    const csvString = arrayToCSV(processedOpcionales, ';');
-                    results.push({
-                        data: csvString,
-                        fileName: 'opcionales_procesado.csv'
-                    });
-                } else {
-                     results.push({ error: 'No se procesaron datos de opcionales.', fileName: 'opcionales_procesado.csv' });
-                }
-            } else {
-                 productosLog.push('Archivo Opcionales está vacío o solo contiene encabezados, no se generó archivo.');
-            }
+          if (processedProductos.length > 0) {
+            const csvString = arrayToCSV(processedProductos, ';');
+            results.push({
+              data: csvString,
+              fileName: 'productos_procesado.csv',
+            });
+          } else {
+            productosLog.push('No se procesaron datos de productos. Verifica los encabezados o el contenido del archivo.');
+          }
         }
-    }
-    
-    // Attach logs to the first result object
-    if (results.length > 0) {
-       results[0].productosLog = productosLog;
-       results[0].opcionalesLog = opcionalesLog;
+      }
     }
 
+    if (opcionalesFile) {
+      const opcionalesBuffer = await opcionalesFile.arrayBuffer();
+      const opcionalesWorkbook = xlsx.read(opcionalesBuffer, { type: 'buffer' });
+      const opcionalesSheetName = opcionalesWorkbook.SheetNames[0];
+
+      if (!opcionalesSheetName) {
+        opcionalesLog.push('El archivo de opcionales no contiene hojas.');
+      } else {
+        const opcionalesWorksheet = opcionalesWorkbook.Sheets[opcionalesSheetName];
+        const opcionalesData: any[][] = xlsx.utils.sheet_to_json(opcionalesWorksheet, { header: 1, defval: '' });
+
+        if (opcionalesData.length > 1) {
+          const { processedData: processedOpcionales, log: opcionalesProcessingLog } = processOpcionales(opcionalesData, idToSkuMap);
+          opcionalesLog.push(...opcionalesProcessingLog);
+
+          if (processedOpcionales.length > 0) {
+            const csvString = arrayToCSV(processedOpcionales, ';');
+            results.push({
+              data: csvString,
+              fileName: 'opcionales_procesado.csv',
+            });
+          } else {
+            opcionalesLog.push('No se procesaron datos de opcionales.');
+          }
+        } else {
+          opcionalesLog.push('Archivo Opcionales está vacío o solo contiene encabezados, no se generó archivo.');
+        }
+      }
+    }
+
+    if (results.length > 0) {
+      results[0].productosLog = productosLog;
+      results[0].opcionalesLog = opcionalesLog;
+    } else if (productosLog.length > 0 || opcionalesLog.length > 0) {
+      return [{ productosLog, opcionalesLog, error: "No se generaron archivos descargables. Revisa los logs para más detalles." }];
+    }
 
     return results;
 

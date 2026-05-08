@@ -89,17 +89,18 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
   
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!productosFile) {
-      toast({ variant: 'destructive', title: 'Error', description: 'El archivo de Productos es obligatorio.' });
+    if (!productosFile && !opcionalesFile) {
+      toast({ variant: 'destructive', title: 'Error', description: 'Debes seleccionar al menos un archivo para procesar.' });
       return;
     }
     
     const formData = new FormData();
-    formData.append('productos', productosFile);
+    if (productosFile) {
+      formData.append('productos', productosFile);
+    }
     if (opcionalesFile) {
       formData.append('opcionales', opcionalesFile);
     }
-
 
     startTransition(async () => {
       const response = await processAction(formData);
@@ -203,7 +204,7 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
                           <Package className="w-6 h-6 text-primary flex-shrink-0" />
                           <div className="flex flex-col overflow-hidden">
                             <span className="text-sm font-semibold truncate">{productosFile?.name || 'No seleccionado'}</span>
-                            <span className="text-xs text-muted-foreground">Archivo de Productos (Obligatorio)</span>
+                            <span className="text-xs text-muted-foreground">Archivo de Productos</span>
                           </div>
                         </div>
                         {productosFile && <Button variant="ghost" size="icon" onClick={() => removeFile('productos')} className="text-muted-foreground hover:text-destructive flex-shrink-0">
@@ -236,7 +237,7 @@ export function UnifiedFileProcessor({ title, description, processAction, classN
           
           {(productosFile || opcionalesFile) && (
             <div className="flex gap-2">
-                <Button type="submit" className="w-full" disabled={isPending || !productosFile}>
+                <Button type="submit" className="w-full" disabled={isPending || (!productosFile && !opcionalesFile)}>
                   {isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
