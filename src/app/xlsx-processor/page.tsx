@@ -9,13 +9,13 @@ import MensajeFlotante from "@/components/mensaje-flotante";
 
 
 export default function XlsxProcessorPage() {
-  /*const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
   
   if (status === "loading") return <p>Cargando...</p>;
 
   if (!session) {
     redirect('/'); 
-  }{*/
+  }{
     return (
       <DashboardLayout>
         <header className="py-8 px-6 sm:px-8 lg:px-6">
@@ -41,5 +41,5 @@ export default function XlsxProcessorPage() {
         </main>
       </DashboardLayout>
     );
-  
+  }
 }
