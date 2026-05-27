@@ -166,7 +166,21 @@ export default function UnifiedComparator() {
 
                 const val1 = oldRow[col] ?? '';
                 const val2 = newRow[col] ?? '';
-                if (String(val1).trim() !== String(val2).trim()) {
+                
+                let areDifferent = false;
+                if (col.toLowerCase() === 'precio') {
+                    const num1 = parseFloat(String(val1));
+                    const num2 = parseFloat(String(val2));
+                    if (!isNaN(num1) && !isNaN(num2)) {
+                        areDifferent = num1 !== num2;
+                    } else {
+                        areDifferent = String(val1).trim() !== String(val2).trim();
+                    }
+                } else {
+                    areDifferent = String(val1).trim() !== String(val2).trim();
+                }
+
+                if (areDifferent) {
                     rowChanges.push(`la columna "${col}" cambió de "${val1}" a "${val2}"`);
                 }
             }

@@ -10,11 +10,11 @@ import { DashboardLayout } from '@/components/dashboard-layout';
 export default function CompararExcelPage() {
   const { data: session, status } = useSession();
   
-  if (status === "loading") return <p>Cargando...</p>;
+  /*if (status === "loading") return <p>Cargando...</p>;
 
   if (!session) {
     redirect('/'); 
-  }{
+  }{*/
     return (
       <DashboardLayout>
         <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -45,5 +45,5 @@ export default function CompararExcelPage() {
       </DashboardLayout>
       
     );
-  }
+  
 }
