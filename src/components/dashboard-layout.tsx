@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import {
   SidebarProvider,
   Sidebar,
@@ -19,7 +19,7 @@ import {
   SidebarMenuSubButton,
 } from '@/components/ui/sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Play, FileCode, MessageCircle, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint, GitCompare, ClipboardList, User } from 'lucide-react';
+import { Play, FileCode, MessageCircle, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint, GitCompare, ClipboardList, User, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
@@ -296,13 +296,24 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           <SidebarMenu>
             {session?.user?.email && (
               <SidebarMenuItem>
-                <div className="flex items-center gap-2 px-2 py-1.5 group-data-[collapsible=icon]:justify-center">
-                  <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                    <User className="w-4 h-4" />
+                <div className="flex items-center justify-between px-2 py-1.5 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:flex-col">
+                  <div className="flex items-center gap-2 overflow-hidden">
+                    <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                      <User className="w-4 h-4" />
+                    </div>
+                    <span className="text-xs text-muted-foreground truncate group-data-[collapsible=icon]:hidden">
+                      {session.user.email.split('@')[0]}
+                    </span>
                   </div>
-                  <span className="text-xs text-muted-foreground truncate group-data-[collapsible=icon]:hidden">
-                    {session.user.email}
-                  </span>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-7 w-7 text-muted-foreground hover:text-red-500 shrink-0 group-data-[collapsible=icon]:hidden"
+                    onClick={() => signOut()}
+                    title="Cerrar sesión"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </Button>
                 </div>
               </SidebarMenuItem>
             )}

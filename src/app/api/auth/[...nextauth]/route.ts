@@ -15,8 +15,11 @@ const handler = NextAuth({
   },
   
   callbacks: {
-    async signIn() {
-      return true; 
+    async signIn({ user }) {
+      if (user.email && user.email.endsWith('@pedidosya.com')) {
+        return true;
+      }
+      return false; 
     },
   },
 }); 

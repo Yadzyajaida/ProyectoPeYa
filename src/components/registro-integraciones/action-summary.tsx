@@ -60,15 +60,15 @@ export function ActionSummary({ ticketData, processData, actions, onReset }: Act
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground">Ticket ID</span>
-                <span className="text-sm text-foreground">{ticketData.ticket}</span>
+                <span className="text-sm text-foreground break-all">{ticketData.ticket}</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground">ID Partner</span>
-                <span className="text-sm text-foreground">{ticketData.partnerId || '—'}</span>
+                <span className="text-sm text-foreground break-all">{ticketData.partnerId || '—'}</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground">Partner</span>
-                <span className="text-sm text-foreground">{ticketData.partner}</span>
+                <span className="text-sm text-foreground break-all">{ticketData.partner}</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground">Tipo de Cuenta</span>

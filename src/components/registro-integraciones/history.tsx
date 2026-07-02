@@ -99,20 +99,20 @@ export function History({ userEmail }: HistoryProps) {
               {ticket.partnerId && (
                 <div>
                   <p className="text-xs text-muted-foreground">ID Partner</p>
-                  <p className="text-sm font-medium text-foreground">{ticket.partnerId}</p>
+                  <p className="text-sm font-medium text-foreground break-all">{ticket.partnerId}</p>
                 </div>
               )}
               <div>
                 <p className="text-xs text-muted-foreground">Partner</p>
-                <p className="text-sm font-medium text-foreground">{ticket.partner}</p>
+                <p className="text-sm font-medium text-foreground break-all">{ticket.partner}</p>
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Cuenta</p>
-                <p className="text-sm font-medium text-foreground">{ticket.cuenta}</p>
+                <p className="text-sm font-medium text-foreground break-all">{ticket.cuenta}</p>
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">País</p>
-                <p className="text-sm font-medium text-foreground">{ticket.pais}</p>
+                <p className="text-sm font-medium text-foreground break-all">{ticket.pais}</p>
               </div>
             </div>
 
