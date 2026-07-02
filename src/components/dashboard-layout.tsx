@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import {
   SidebarProvider,
   Sidebar,
@@ -18,7 +19,7 @@ import {
   SidebarMenuSubButton,
 } from '@/components/ui/sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Play, FileCode, MessageCircle, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint, GitCompare } from 'lucide-react';
+import { Play, FileCode, MessageCircle, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint, GitCompare, ClipboardList, User } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
@@ -41,6 +42,7 @@ function SidebarToggle() {
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isMobile = useIsMobile();
+  const { data: session } = useSession();
   const [mounted, setMounted] = React.useState(false);
   
   React.useEffect(() => {
@@ -180,6 +182,32 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname?.startsWith('/registro-integraciones')}
+                tooltip="Registro de Integraciones"
+              >
+                <Link href="/registro-integraciones/tickets">
+                  <ClipboardList />
+                  <span>Registro de Integraciones</span>
+                </Link>
+              </SidebarMenuButton>
+              <SidebarMenuSub>
+                <SidebarMenuSubButton asChild isActive={pathname === '/registro-integraciones/tickets'}>
+                  <Link href="/registro-integraciones/tickets">
+                    <Minus className="w-3 h-3" />
+                    <span>Tickets</span>
+                  </Link>
+                </SidebarMenuSubButton>
+                <SidebarMenuSubButton asChild isActive={pathname === '/registro-integraciones/historial'}>
+                  <Link href="/registro-integraciones/historial">
+                    <Minus className="w-3 h-3" />
+                    <span>Historial</span>
+                  </Link>
+                </SidebarMenuSubButton>
+              </SidebarMenuSub>
+            </SidebarMenuItem>
             {/* <SidebarMenuItem>
               <SidebarMenuButton
                 asChild
@@ -266,8 +294,20 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </SidebarContent>
         <SidebarFooter>
           <SidebarMenu>
-             <SidebarMenuItem className="mt-2 flex items-center justify-end">
-                <SidebarToggle />
+            {session?.user?.email && (
+              <SidebarMenuItem>
+                <div className="flex items-center gap-2 px-2 py-1.5 group-data-[collapsible=icon]:justify-center">
+                  <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    <User className="w-4 h-4" />
+                  </div>
+                  <span className="text-xs text-muted-foreground truncate group-data-[collapsible=icon]:hidden">
+                    {session.user.email}
+                  </span>
+                </div>
+              </SidebarMenuItem>
+            )}
+            <SidebarMenuItem className="mt-2 flex items-center justify-end">
+              <SidebarToggle />
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>
