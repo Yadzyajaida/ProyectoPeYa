@@ -30,7 +30,7 @@ export default function XlsxProcessorPage() {
           </div>
 
         </header>
-        <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <main className="flex-grow w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 pb-12">
           <div className="grid grid-cols-1 gap-8">
             <UnifiedFileProcessor
               title="Procesador de productos y opcionales"

@@ -42,7 +42,7 @@ export default function Home() {
   } else {
     return (
       <DashboardLayout>
-        <header className="py-8 px-4 sm:px-6 lg:px-8">
+        <header className="py-8 px-2 sm:px-4 lg:px-6">
           <div className="max-w-7xl mx-auto justify-items-center">
             <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl font-headline">
               Herramientas
@@ -52,7 +52,7 @@ export default function Home() {
             </p>
           </div>
         </header>
-        <main className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <main className="flex-grow w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 pb-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Link href="/xlsx-processor">
               <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">

@@ -99,8 +99,8 @@ export function RegistroIntegraciones({ userEmail, activeTab }: RegistroIntegrac
 
   return (
     <>
-      <header className="py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
+      <header className="py-6 px-2 sm:px-4 lg:px-6">
+        <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl font-headline">
             {activeTab === 'tickets' ? 'Registro de Ticket' : 'Mi Historial'}
           </h1>
@@ -112,7 +112,7 @@ export function RegistroIntegraciones({ userEmail, activeTab }: RegistroIntegrac
         </div>
       </header>
 
-      <main className="flex-grow w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <main className="flex-grow w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 pb-12">
         {activeTab === 'tickets' && (
           <>
             {/* Step Indicator */}
