@@ -120,9 +120,9 @@ export function History({ userEmail }: HistoryProps) {
             <TableRow>
               <TableHead>Ticket ID</TableHead>
               <TableHead>Partner</TableHead>
-              <TableHead>Cuenta</TableHead>
-              <TableHead>País</TableHead>
-              <TableHead>Proceso / Categoría</TableHead>
+              <TableHead className="hidden lg:table-cell">Cuenta</TableHead>
+              <TableHead className="hidden lg:table-cell">País</TableHead>
+              <TableHead className="hidden md:table-cell">Proceso / Categoría</TableHead>
               <TableHead className="text-right">Fecha</TableHead>
             </TableRow>
           </TableHeader>
@@ -134,19 +134,19 @@ export function History({ userEmail }: HistoryProps) {
                 onClick={() => setSelectedTicket(ticket)}
               >
                 <TableCell className="font-medium">
-                  <Badge variant="outline" className="text-primary border-primary/20">
+                  <Badge variant="outline" className="text-primary border-primary/20 truncate max-w-[100px] sm:max-w-[150px]" title={ticket.ticketId}>
                     {ticket.ticketId}
                   </Badge>
                 </TableCell>
-                <TableCell className="truncate max-w-[200px]" title={ticket.partner}>
+                <TableCell className="truncate max-w-[120px] sm:max-w-[200px]" title={ticket.partner}>
                   {ticket.partner}
                 </TableCell>
-                <TableCell>{ticket.cuenta}</TableCell>
-                <TableCell>{ticket.pais}</TableCell>
-                <TableCell className="truncate max-w-[250px]" title={ticket.procesoSeguido}>
+                <TableCell className="hidden lg:table-cell">{ticket.cuenta}</TableCell>
+                <TableCell className="hidden lg:table-cell">{ticket.pais}</TableCell>
+                <TableCell className="hidden md:table-cell truncate max-w-[200px]" title={ticket.procesoSeguido}>
                   {ticket.procesoSeguido || '—'}
                 </TableCell>
-                <TableCell className="text-right text-muted-foreground text-xs">
+                <TableCell className="text-right text-muted-foreground text-xs whitespace-nowrap">
                   {new Date(ticket.fecha).toLocaleString()}
                 </TableCell>
               </TableRow>
