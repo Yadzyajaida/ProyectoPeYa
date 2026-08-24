@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { RegistroIntegraciones } from '@/components/registro-integraciones/registro-integraciones';
 
-export default function TicketsPage() {
+export default function HistorialPage() {
   const { data: session, status } = useSession();
 
   if (status === 'loading') return <p>Cargando...</p>;
@@ -15,7 +15,7 @@ export default function TicketsPage() {
     <DashboardLayout>
       <RegistroIntegraciones
         userEmail={session.user?.email || ''}
-        activeTab="tickets"
+        activeTab="history"
       />
     </DashboardLayout>
   );

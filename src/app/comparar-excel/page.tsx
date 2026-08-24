@@ -17,7 +17,7 @@ export default function CompararExcelPage() {
   }{
     return (
       <DashboardLayout>
-        <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto py-10 px-2 sm:px-4 lg:px-6">
               <div className="text-center mb-10">
                   <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
                       Comparador de archivos
