@@ -150,25 +150,13 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
     const content = cleaned.slice(1);
     
     const log: string[] = [];
-    const loggedProductIds = new Set<string>();
     
     const idProductoIndex = header.indexOf('ID Producto');
     const skuProductoIndex = header.indexOf('SKU Producto');
- 
+    const nombreGrupoIndex = header.indexOf('Grupo de opciones');
+    const skuOpcionalIndex = header.indexOf('SKU');
+
     if (Object.keys(idToSkuMap).length > 0 && idProductoIndex !== -1 && skuProductoIndex !== -1) {
-      content.forEach((row) => {
-          const skuProducto = String(row[skuProductoIndex]).trim();
-          if (idToSkuMap[skuProducto] && !loggedProductIds.has(skuProducto)) {
-              const oldSku = row[skuProductoIndex];
-              const newSku = idToSkuMap[skuProducto];
-              
-              if (String(oldSku).trim() !== newSku) {
-                  log.push(`- Nombre de producto ${skuProducto}: SKU actualizado a '${newSku}'.`);
-                  loggedProductIds.add(skuProducto);
-              }
-          }
-      });
-      
       content.forEach((row) => {
           const productId = String(row[idProductoIndex]).trim();
           if (idToSkuMap[productId]) {
@@ -177,102 +165,70 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
       });
     }
 
-    const filteredContent = content
-        .map((row, index) => row ? [...row, index + 2] : null)
-        .filter(row => row && row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== ''));
+    const filteredContent: any[][] = [];
+    content.forEach((row, index) => {
+        if (row && row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== '')) {
+            const newRow = [...row, index + 2];
+            filteredContent.push(newRow);
+        }
+    });
 
     const originalRowIndex = header.length;
-    
+
     const cantidadGrupoIndex = header.indexOf('Cantidad Grupo de opciones');
-    const nombreGrupoIndex = header.indexOf('Grupo de opciones');
     const cantidadMinIndex = header.indexOf('Cantidad mínima Grupo de opciones');
     const cantidadMaxIndex = header.indexOf('Cantidad máxima Grupo de opciones');
         
     filteredContent.forEach(row => {
-        if (!row) return;
-        if (cantidadMinIndex === -1 || cantidadMaxIndex === -1) return;
-
-        const cantidadGrupo = row[cantidadGrupoIndex];
-        const cantidadMax = row[cantidadMaxIndex];
-        const cantidadMin = row[cantidadMinIndex];
-
+        if (!row || cantidadMinIndex === -1 || cantidadMaxIndex === -1) return;
         const hasValue = (val: any) => val !== null && val !== undefined && String(val).trim() !== '';
 
-        if (hasValue(cantidadGrupo) && !hasValue(cantidadMin) && !hasValue(cantidadMax)) {
+        const cantidadGrupo = row[cantidadGrupoIndex];
+        if (hasValue(cantidadGrupo) && !hasValue(row[cantidadMinIndex]) && !hasValue(row[cantidadMaxIndex])) {
             row[cantidadMinIndex] = cantidadGrupo;
             row[cantidadMaxIndex] = cantidadGrupo;
-        }
-        else if (!hasValue(cantidadGrupo) && hasValue(cantidadMax)) {
-             if (!hasValue(cantidadMin)) {
-                row[cantidadMinIndex] = 0;
-             }
-        }
-        else if (hasValue(cantidadGrupo) && hasValue(cantidadMax)) {
-            if (!hasValue(cantidadMin)) {
-                row[cantidadMinIndex] = 0;
-            }
+        } else if (hasValue(row[cantidadMaxIndex]) && !hasValue(row[cantidadMinIndex])) {
+             row[cantidadMinIndex] = 0;
         }
     });
 
-    const skuOpcionalIndex = header.indexOf('SKU');
-    if (skuOpcionalIndex !== -1 && idProductoIndex !== -1 && skuProductoIndex !== -1) {
+    if (skuOpcionalIndex !== -1 && idProductoIndex !== -1 && skuProductoIndex !== -1 && nombreGrupoIndex !== -1) {
+        const skuCounter = new Map<string, number>();
+        let emptySkuCount = 0;
 
-        const groupedByProductAndName: { [key: string]: any[][] } = {};
         filteredContent.forEach(row => {
             if (!row) return;
+
+            const rawSku = row[skuOpcionalIndex];
+            const excelRow = row[originalRowIndex];
+
+            if (rawSku === null || rawSku === undefined || String(rawSku).trim() === '') {
+                const prefix = getNextPrefix(emptySkuCount);
+                const newSku = prefix;
+                row[skuOpcionalIndex] = newSku;
+                log.push(`- Fila ${excelRow}: SKU de opción vacío rellenado con '${newSku}'.`);
+                emptySkuCount++;
+                return;
+            }
+            
             const productId = String(row[idProductoIndex]).trim();
-            const productName = String(row[skuProductoIndex]).trim(); // Usamos SKU Producto como Nombre Producto
-            const compositeKey = `${productId}-${productName}`;
+            const productName = String(row[skuProductoIndex]).trim();
+            const groupName = String(row[nombreGrupoIndex]).trim();
+            const originalSku = String(rawSku).trim();
 
-            if (!groupedByProductAndName[compositeKey]) {
-                groupedByProductAndName[compositeKey] = [];
+            const compositeKey = `${productId}-${productName}-${groupName}-${originalSku}`;
+
+            const currentCount = skuCounter.get(compositeKey) || 0;
+
+            if (currentCount > 0) {
+                const prefix = getNextPrefix(currentCount - 1);
+                const newSku = `${prefix}${originalSku}`;
+                log.push(`- Fila ${excelRow}: SKU de opción duplicado '${originalSku}' renombrado a '${newSku}'.`);
+                row[skuOpcionalIndex] = newSku;
             }
-            groupedByProductAndName[compositeKey].push(row);
+            
+            skuCounter.set(compositeKey, currentCount + 1);
         });
-
-        for (const compositeKey in groupedByProductAndName) {
-            const productRows = groupedByProductAndName[compositeKey];
-
-            const groupedByOptionGroup: { [key: string]: any[][] } = {};
-            productRows.forEach(row => {
-                const nombreGrupo = String(row[nombreGrupoIndex]).trim();
-                if (!groupedByOptionGroup[nombreGrupo]) {
-                    groupedByOptionGroup[nombreGrupo] = [];
-                }
-                groupedByOptionGroup[nombreGrupo].push(row);
-            });
-
-            for (const groupName in groupedByOptionGroup) {
-                const groupRows = groupedByOptionGroup[groupName];
-                const skuCounts: { [key: string]: number } = {};
-                let emptySkuCount = 0;
-
-                groupRows.forEach(row => {
-                    const rawSku = row[skuOpcionalIndex];
-                    const excelRow = row[originalRowIndex];
-
-                    if (rawSku === null || rawSku === undefined || String(rawSku).trim() === '') {
-                        const prefix = getNextPrefix(emptySkuCount);
-                        const newSku = prefix;
-                        row[skuOpcionalIndex] = newSku;
-                        log.push(`- Fila ${excelRow}: SKU de opción vacío rellenado con '${newSku}'.`);
-                        emptySkuCount++;
-                    } else {
-                        const originalSku = String(rawSku).trim();
-                        if (skuCounts[originalSku]) {
-                            const count = skuCounts[originalSku];
-                            const prefix = getNextPrefix(count - 1);
-                            const newSku = `${prefix}${originalSku}`;
-                            log.push(`- Fila ${excelRow}: SKU de opción duplicado '${originalSku}' dentro del producto '${compositeKey}' y grupo '${groupName}' renombrado a '${newSku}'.`);
-                            row[skuOpcionalIndex] = newSku;
-                            skuCounts[originalSku]++;
-                        } else {
-                            skuCounts[originalSku] = 1;
-                        }
-                    }
-                });
-            }
-        }
     }
 
     const requiredHeaders = [
@@ -285,9 +241,7 @@ function processOpcionales(data: any[][], idToSkuMap: {[key: string]: string}): 
 
     const processed = filteredContent.map(row => {
         if (!row) return null;
-        
         return headerIndices.map(index => (index !== -1 ? row[index] : ''));
-
     }).filter(row => row !== null) as any[][];
 
     processed.forEach(row => {
