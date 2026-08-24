@@ -10,8 +10,8 @@ import MensajeFlotante from "@/components/mensaje-flotante";
 export default function XlsxProcessorClientPage() {
   const { data: session, status } = useSession();
 
-  if (status === "loading") return <p>Cargando...</p>;
-  if (!session) { redirect('/'); }
+  //if (status === "loading") return <p>Cargando...</p>;
+ // if (!session) { redirect('/'); }
 
   return (
     <DashboardLayout>
