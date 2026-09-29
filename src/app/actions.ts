@@ -281,7 +281,7 @@ export async function processFiles(formData: FormData): Promise<MultiProcessResu
         productosLog.push('El archivo de productos no contiene hojas.');
       } else {
         const productosWorksheet = productosWorkbook.Sheets[productosSheetName];
-        const productosData: any[][] = xlsx.utils.sheet_to_json(productosWorksheet, { header: 1, defval: '' });
+        const productosData: any[][] = xlsx.utils.sheet_to_json(productosWorksheet, { header: 1, defval: '', raw: false });
 
         if (productosData.length <= 1) {
           productosLog.push('El archivo de productos está vacío o solo contiene encabezados.');
@@ -312,7 +312,7 @@ export async function processFiles(formData: FormData): Promise<MultiProcessResu
         opcionalesLog.push('El archivo de opcionales no contiene hojas.');
       } else {
         const opcionalesWorksheet = opcionalesWorkbook.Sheets[opcionalesSheetName];
-        const opcionalesData: any[][] = xlsx.utils.sheet_to_json(opcionalesWorksheet, { header: 1, defval: '' });
+        const opcionalesData: any[][] = xlsx.utils.sheet_to_json(opcionalesWorksheet, { header: 1, defval: '', raw: false });
 
         if (opcionalesData.length > 1) {
           const { processedData: processedOpcionales, log: opcionalesProcessingLog } = processOpcionales(opcionalesData, idToSkuMap);
