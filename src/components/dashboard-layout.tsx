@@ -19,7 +19,7 @@ import {
   SidebarMenuSubButton,
 } from '@/components/ui/sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Upload, Play, FileCode, MessageCircle, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint, GitCompare, ClipboardList, User, LogOut } from 'lucide-react';
+import { Upload, ToggleRight, FileCode, MessageCircle, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint, GitCompare, ClipboardList, User, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
@@ -164,7 +164,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 tooltip="Consultor de Sponsorship"
               >
                 <a href="https://consultorsponsorship.netlify.app/" target="_blank" rel="noopener noreferrer">
-                  <Settings />
+                  <ToggleRight />
                   <span>Consultor de Sponsorship</span>
                 </a>
               </SidebarMenuButton>
