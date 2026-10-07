@@ -17,15 +17,14 @@ export default function CompararExcelPage() {
   }{
     return (
       <DashboardLayout>
-        <div className="max-w-7xl mx-auto py-10 px-2 sm:px-4 lg:px-6">
-              <div className="text-center mb-10">
-                  <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+        <div className="max-w-[1600px] mx-auto pb-2 pt-0 px-2 sm:px-4 lg:px-6">
+              <div className="mb-2">
+                  <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                       Comparador de archivos
                   </h1>
-                  <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+                  <p className="mt-2 text-muted-foreground">
                       Sube tus archivos para comparar los valores de las columnas y filas ingresadas.
                   </p>
-                  
               </div>
 
               <Card>

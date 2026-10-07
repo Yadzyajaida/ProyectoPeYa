@@ -16,17 +16,17 @@ export default function XlsxConverterPage() {
   }{
     return (
       <DashboardLayout>
-        <header className="py-8 px-2 sm:px-4 lg:px-6">
-          <div className="max-w-7xl mx-auto justify-items-center">
-            <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl font-headline">
+        <header className="pb-2 pt-0 px-2 sm:px-4 lg:px-6">
+          <div className="max-w-[1600px] mx-auto ">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               Convertidor de archivos
             </h1>
-            <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
+            <p className="mt-2 text-muted-foreground">
               Sube tus archivos para convertirlos entre diferentes formatos.
             </p>
           </div>
         </header>
-        <main className="flex-grow w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 pb-12">
+        <main className="flex-grow w-full max-w-[1600px] mx-auto px-2 sm:px-4 lg:px-6 pb-0">
           <div className="grid grid-cols-1 gap-8">
             <FileConverter
               title="Convertidor de XLSX a CSV"

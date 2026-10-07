@@ -16,8 +16,8 @@ export default function EnlacesGoogle() {
   }{
     return (
       <DashboardLayout>
-        <header className="py-8 px-2 sm:px-4 lg:px-6">
-          <div className="max-w-7xl mx-auto justify-items-center">
+        <header className="pb-6 pt-2 px-2 sm:px-4 lg:px-6">
+          <div className="max-w-[1600px] mx-auto ">
             <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl font-headline">
               Documentos
             </h1>
@@ -26,7 +26,7 @@ export default function EnlacesGoogle() {
             </p>
           </div>
         </header>
-        <main className="flex-grow w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 pb-12">
+        <main className="flex-grow w-full max-w-[1600px] mx-auto px-2 sm:px-4 lg:px-6 pb-2">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <a href="https://docs.google.com/document/d/1OqGgsJzInXzzqnQOXTCcP0ACF0BhEXi2YjTvPpbLOC0/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
               <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">

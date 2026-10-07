@@ -42,8 +42,8 @@ export default function Home() {
   } else {
     return (
       <DashboardLayout>
-        <header className="py-8 px-2 sm:px-4 lg:px-6">
-          <div className="max-w-7xl mx-auto justify-items-center">
+        <header className="pb-6 pt-2 px-2 sm:px-4 lg:px-6">
+          <div className="max-w-[1600px] mx-auto ">
             <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl font-headline">
               Herramientas
             </h1>
@@ -52,7 +52,7 @@ export default function Home() {
             </p>
           </div>
         </header>
-        <main className="flex-grow w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 pb-12">
+        <main className="flex-grow w-full max-w-[1600px] mx-auto px-2 sm:px-4 lg:px-6 pb-2">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Link href="/xlsx-processor">
               <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
@@ -93,7 +93,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
             </Link>
-            <a href="https://script.google.com/a/macros/pedidosya.com/s/AKfycbzaiV2u_CgH5JctP6q8sNQz-SLhzKroTH_bPUrx1fwp-w6mnfX0p5k9oEVv9cZG_WDVfA/exec" target="_blank" rel="noopener noreferrer">
+            <a href="https://peya-onb.onrender.com/" target="_blank" rel="noopener noreferrer">
               <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
                 <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                   <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
@@ -102,6 +102,19 @@ export default function Home() {
                   <CardTitle className="text-xl">Onboarding de integraciones</CardTitle>
                   <CardDescription className="mt-2">
                     Consulta si un local se encuentra en proceso de onboarding de integración y todo el detalle del mismo.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </a>
+            <a href="https://consultorsponsorship.netlify.app/" target="_blank" rel="noopener noreferrer">
+              <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
+                <CardHeader className="flex flex-col items-center justify-center text-center p-6">
+                  <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
+                    <Settings className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
+                  </div>
+                  <CardTitle className="text-xl">Consultos Sponsorship</CardTitle>
+                  <CardDescription className="mt-2">
+                    Consulta si un local se encuentra en proceso de sponsorship o si ya fue activado.
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -128,6 +141,19 @@ export default function Home() {
                   <CardTitle className="text-xl">Comparar archivos</CardTitle>
                   <CardDescription className="mt-2">
                     Sube tus archivos para comparar los valores de las columnas y filas ingresadas.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </Link>
+            <Link href="/cargar-procesador">
+              <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
+                <CardHeader className="flex flex-col items-center justify-center text-center p-6">
+                  <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
+                    <GitCompare className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
+                  </div>
+                  <CardTitle className="text-xl">Cargar Procesador</CardTitle>
+                  <CardDescription className="mt-2">
+                    Sube tus archivos para cargar y procesar los datos.
                   </CardDescription>
                 </CardHeader>
               </Card>

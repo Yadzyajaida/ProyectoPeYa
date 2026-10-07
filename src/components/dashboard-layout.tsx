@@ -19,7 +19,7 @@ import {
   SidebarMenuSubButton,
 } from '@/components/ui/sidebar';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Play, FileCode, MessageCircle, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint, GitCompare, ClipboardList, User, LogOut } from 'lucide-react';
+import { Upload, Play, FileCode, MessageCircle, Minus, FileText, Settings, FileSpreadsheet, Home, ChevronLeft, FileCog, Link as LinkIcon, FileWarning, Fingerprint, GitCompare, ClipboardList, User, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
@@ -50,7 +50,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className="h-screen overflow-hidden">
       <Sidebar>
         <SidebarHeader>
           <div className="flex items-center gap-2 my-2 border-b border-gray-50 pb-4">
@@ -152,9 +152,20 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 asChild
                 tooltip="Onboarding integraciones"
               >
-                <a href="https://script.google.com/a/macros/pedidosya.com/s/AKfycbzaiV2u_CgH5JctP6q8sNQz-SLhzKroTH_bPUrx1fwp-w6mnfX0p5k9oEVv9cZG_WDVfA/exec" target="_blank" rel="noopener noreferrer">
+                <a href="https://peya-onb.onrender.com/" target="_blank" rel="noopener noreferrer">
                   <Settings />
                   <span>Onboarding de integraciones</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                tooltip="Consultor de Sponsorship"
+              >
+                <a href="https://consultorsponsorship.netlify.app/" target="_blank" rel="noopener noreferrer">
+                  <Settings />
+                  <span>Consultor de Sponsorship</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -179,6 +190,18 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <Link href="/comparar-excel">
                   <GitCompare />
                   <span>Comparar archivos</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === '/cargar-procesador'}
+                tooltip="Cargar Procesador"
+              >
+                <Link href="/cargar-procesador">
+                  <Upload />
+                  <span>Cargar Procesador</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -323,18 +346,24 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset>
+      <SidebarInset className="flex flex-col flex-1 w-full overflow-hidden bg-background">
         {mounted ? (
-          <div className="flex items-center justify-between p-2">
-              {isMobile && <SidebarTrigger />}
-              <div className={cn("flex-grow", !isMobile && "flex justify-end")}>
-                <ThemeToggle />
-              </div>
-          </div>
+          <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 justify-between border-b bg-background/95 backdrop-blur px-4 transition-all">
+            <div className="flex items-center gap-2">
+              {isMobile && <SidebarTrigger className="-ml-1" />}
+            </div>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+            </div>
+          </header>
         ) : (
-          <div className="p-2 h-[56px]" />
+          <header className="flex h-14 shrink-0 border-b px-4" />
         )}
-        {children}
+        <div className="flex-1 overflow-hidden w-full relative">
+          <div className="w-full h-full min-h-min px-2 sm:px-4 md:px-6 pb-2 pt-2 transition-all duration-300">
+            {children}
+          </div>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );
