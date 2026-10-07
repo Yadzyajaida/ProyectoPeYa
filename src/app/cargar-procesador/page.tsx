@@ -30,7 +30,7 @@ export default function CargarProcesadorPage() {
                 <ul className="list-disc pl-5 text-muted-foreground text-xs space-y-1">
                     <li>Selecciona el tipo de formato al que deseas convertir (Productos, Opcionales, Precios, etc.).</li>
                     <li>Sube tu archivo de Excel. El sistema detectará automáticamente la hoja con datos.</li>
-                    <li>Indica si el archivo que subes ya tiene encabezados o no. El procesador agregará los encabezados oficiales de PedidosYa.</li>
+                    <li>Indica si el archivo que subes ya tiene encabezados o no.</li>
                     <li>Se corregirán automáticamente los SKUs duplicados y vacíos en los formatos aplicables.</li>
                 </ul>
               </div>
