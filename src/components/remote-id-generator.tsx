@@ -46,7 +46,8 @@ type GeneratedIdData = {
 export function RemoteIdGenerator() {
   const { toast } = useToast();
   const [country, setCountry] = useState('');
-  const [inputData, setInputData] = useState('');
+  const [inputNames, setInputNames] = useState('');
+  const [inputIds, setInputIds] = useState('');
   const [generatedData, setGeneratedData] = useState<GeneratedIdData[]>([]);
   const [isTableCopied, setIsTableCopied] = useState(false);
   const [isTextCopied, setIsTextCopied] = useState(false);
@@ -65,30 +66,20 @@ export function RemoteIdGenerator() {
       toast({ variant: 'destructive', title: 'Error', description: 'Debes seleccionar un país.' });
       return;
     }
-    if (!inputData.trim()) {
-      toast({ variant: 'destructive', title: 'Error', description: 'El campo de entrada no puede estar vacío.' });
+    if (!inputNames.trim()) {
+      toast({ variant: 'destructive', title: 'Error', description: 'El campo de nombres no puede estar vacío.' });
       return;
     }
 
-    const lines = inputData.trim().split('\n');
+    const nameLines = inputNames.trim().split('\n');
+    const idLines = inputIds.trim().split('\n');
 
-    const remoteIdsData = lines.map(line => {
-        line = line.trim();
-        if (!line) return null;
+    const remoteIdsData = nameLines.map((nameLine, index) => {
+        nameLine = nameLine.trim();
+        if (!nameLine) return null;
 
-        let localName = line;
-        let id;
-        const parts = line.split(/\s+/);
-
-        if (parts.length > 1 && /^\d+$/.test(parts[parts.length - 1])) {
-            id = parts.pop();
-            localName = parts.join(' ');
-        } else if (parts.length > 1 && /^\d+$/.test(parts[0])) {
-            id = parts.shift();
-            localName = parts.join(' ');
-        }
-
-        if (!localName) return null;
+        const localName = nameLine;
+        const id = idLines[index] && idLines[index].trim() !== '' ? idLines[index].trim() : undefined;
 
         const normalizedName = normalizeText(localName);
         const remoteId = `${country}-${normalizedName}-0001`.toUpperCase();
@@ -159,7 +150,8 @@ export function RemoteIdGenerator() {
 
   const handleClear = () => {
     setCountry('');
-    setInputData('');
+    setInputNames('');
+    setInputIds('');
     setGeneratedData([]);
     setIsTableCopied(false);
     setIsTextCopied(false);
@@ -190,15 +182,27 @@ export function RemoteIdGenerator() {
             </Select>
         </div>
 
-        <div className="grid w-full gap-2">
-            <Label htmlFor="data-textarea">Nombres de Locales y IDs (uno por línea)</Label>
-            <Textarea
-                id="data-textarea"
-                placeholder={'Mi Restaurante Genial\nLa Pizzería de Juan 67890\n12345 El Otro Local'}
-                value={inputData}
-                onChange={(e) => setInputData(e.target.value)}
-                rows={8}
-            />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+            <div className="grid w-full gap-2">
+                <Label htmlFor="names-textarea">Nombres de Locales (uno por línea)</Label>
+                <Textarea
+                    id="names-textarea"
+                    placeholder={'Mi Restaurante Genial\nLa Pizzería de Juan\nEl Otro Local'}
+                    value={inputNames}
+                    onChange={(e) => setInputNames(e.target.value)}
+                    rows={8}
+                />
+            </div>
+            <div className="grid w-full gap-2">
+                <Label htmlFor="ids-textarea">IDs (uno por línea, opcional)</Label>
+                <Textarea
+                    id="ids-textarea"
+                    placeholder={'67890\n12345\n(dejar en blanco si no tiene)'}
+                    value={inputIds}
+                    onChange={(e) => setInputIds(e.target.value)}
+                    rows={8}
+                />
+            </div>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-2">

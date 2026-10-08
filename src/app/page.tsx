@@ -2,7 +2,7 @@
 
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ToggleRight, Play, Settings, FileCode, Type, FileText, FileSpreadsheet, FileCog, Link as LinkIcon, FileWarning, Fingerprint, GitCompare, ClipboardList } from 'lucide-react';
+import { Upload, ToggleRight, Play, Settings, FileCode, Type, FileText, FileSpreadsheet, FileCog, Link as LinkIcon, FileWarning, Fingerprint, GitCompare, ClipboardList } from 'lucide-react';
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from 'next/link';
 
@@ -149,7 +149,7 @@ export default function Home() {
               <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
                 <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                   <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
-                    <GitCompare className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
+                    <Upload className="w-10 h-10 text-primary/80 transition-colors group-hover:text-primary" />
                   </div>
                   <CardTitle className="text-xl">Cargar Procesador</CardTitle>
                   <CardDescription className="mt-2">

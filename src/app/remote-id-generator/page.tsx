@@ -10,9 +10,10 @@ export default function RemoteIdGeneratorPage() {
 
   if (status === "loading") return <p>Cargando...</p>;
 
-  if (!session) {
-    redirect('/'); 
-  }{
+  //if (!session) {
+   // redirect('/'); 
+  
+ // }{
     return (
       <DashboardLayout>
         <header className="pb-2 pt-0 px-2 sm:px-4 lg:px-6">
@@ -32,5 +33,5 @@ export default function RemoteIdGeneratorPage() {
         </main>
       </DashboardLayout>
     );
-  } 
+  //} 
 }

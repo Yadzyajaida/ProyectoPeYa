@@ -276,9 +276,7 @@ export async function processFormatFile(formData: FormData): Promise<ProcessResu
        processedContent = content.map(row => targetHeaders.map((_, i) => (i < row.length ? row[i] : '')));
     }
 
-    if (formatType === 'precios' && hasHeaders && rawData[0]) {
-      processedContent.unshift(rawData[0]);
-    } else {
+    if (formatType !== 'precios') {
       processedContent.unshift(targetHeaders);
     }
 
