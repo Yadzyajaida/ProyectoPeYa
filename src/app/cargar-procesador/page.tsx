@@ -11,9 +11,9 @@ export default function CargarProcesadorPage() {
   
   if (status === "loading") return <p>Cargando...</p>;
 
-  //if (!session) {
-  //  redirect('/'); 
-  //}
+  if (!session) {
+    redirect('/'); 
+  }
   
   return (
     <DashboardLayout>
