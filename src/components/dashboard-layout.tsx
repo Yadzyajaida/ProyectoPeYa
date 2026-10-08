@@ -359,7 +359,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         ) : (
           <header className="flex h-14 shrink-0 border-b px-4" />
         )}
-        <div className="flex-1 overflow-hidden w-full relative">
+        <div className="flex-1 overflow-x-hidden overflow-y-auto no-scrollbar w-full relative">
           <div className="w-full h-full min-h-min px-2 sm:px-4 md:px-6 pb-2 pt-2 transition-all duration-300">
             {children}
           </div>
