@@ -152,7 +152,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 asChild
                 tooltip="Onboarding integraciones"
               >
-                <a href="https://peya-onb.onrender.com/" target="_blank" rel="noopener noreferrer">
+                <a href="https://pe-ya-onb.vercel.app/" target="_blank" rel="noopener noreferrer">
                   <Settings />
                   <span>Onboarding de integraciones</span>
                 </a>

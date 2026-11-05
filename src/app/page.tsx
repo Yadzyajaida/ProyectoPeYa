@@ -93,7 +93,7 @@ export default function Home() {
                 </CardHeader>
               </Card>
             </Link>
-            <a href="https://peya-onb.onrender.com/" target="_blank" rel="noopener noreferrer">
+            <a href="https://pe-ya-onb.vercel.app/" target="_blank" rel="noopener noreferrer">
               <Card className="h-full transition-all duration-200 hover:shadow-lg hover:-translate-y-1 group">
                 <CardHeader className="flex flex-col items-center justify-center text-center p-6">
                   <div className="p-4 bg-primary/10 rounded-full mb-4 transition-colors group-hover:bg-primary/20">
